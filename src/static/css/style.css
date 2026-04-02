@@ -1,0 +1,31 @@
+.table th:nth-child(1) { width: 20%; }
+.table th:nth-child(2) { width: 20%; }
+.table th:nth-child(3) { width: 10%; }
+.table th:nth-child(4) { width: 10%; }
+.table th:nth-child(5) { width: 10%; }
+
+.card {
+    margin-top: 50px;
+
+}
+@font-face {
+    font-family: 'Golos UI'; /* Имя, которое будете использовать */
+    src: url('/static/fonts/golos-ui_vf.woff2') format('woff2'); /* Путь к файлу */
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+  /* Пример использования шрифта Open Sans, если нет - Arial, затем любой без засечек */
+  font-family: "Golos UI", Georgia, "Open Sans", sans-serif;
+}
+
+h1 {
+        text-align: center;
+        color: red;
+
+}
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
