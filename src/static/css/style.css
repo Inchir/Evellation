@@ -8,12 +8,14 @@
     margin-top: 50px;
 
 }
+
 @font-face {
     font-family: 'Golos UI'; /* Имя, которое будете использовать */
     src: url('/static/fonts/golos-ui_vf.woff2') format('woff2'); /* Путь к файлу */
     font-weight: normal;
     font-style: normal;
 }
+
 body {
   /* Пример использования шрифта Open Sans, если нет - Arial, затем любой без засечек */
   font-family: "Golos UI", Georgia, "Open Sans", sans-serif;

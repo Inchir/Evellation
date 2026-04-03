@@ -1,0 +1,22 @@
+body {
+    background-image: url('/static/images/sign_in_background.png');
+    background-size: cover;          /* Растягивает изображение на весь экран */
+    background-position: center;     /* Центрирует изображение */
+    background-repeat: no-repeat;    /* Не повторяет изображение */
+    background-attachment: fixed;    /* Фон не прокручивается при скролле */
+    min-height: 100vh;               /* Обеспечивает высоту хотя бы в 1 экран */
+}
+$breadcrumb-divider: none;
+
+.child {
+  position: absolute;
+  top: 20px;    /* Отступ сверху */
+  right: 15px;  /* Отступ справа */
+  /* или left: 10px; bottom: 5px; */
+  background-color: lightblue;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "" !important; /* Убирает контент */
+    padding: 0 !important;  /* Убирает отступы */
+}

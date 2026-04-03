@@ -9,6 +9,16 @@ def index():
     session.clear()
     return render_template('index.html')
 
+@app.route("/sign_in")
+def sign_in():
+    session.clear()
+    return render_template('sign_in.html')
+
+@app.route("/sign_up")
+def sign_up():
+    session.clear()
+    return render_template('sign_up.html')
+
 
 if __name__ == "__main__":
     app.run("127.0.0.1", 8000, debug=True)
