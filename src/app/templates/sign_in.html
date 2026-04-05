@@ -1,0 +1,38 @@
+{% extends "sign_base.html" %}
+
+{% block content %}
+<style>
+  .narrow-text { width: 400px; height: 80px;}
+  .button-text { width: 400px; height: 40px;}
+</style>
+<form action="" method="post" style="margin: 0px; padding: 0px">
+    {{ form.hidden_tag() }}
+    {% for i in form %}
+        {% if i.type == 'SubmitField' %}
+            <p class="button-text">{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        {% elif i.type == 'CSRFTokenField' %}
+            {# если тип - CSRF просто ничего не делать #}
+        {% elif i.type == 'BooleanField' %}
+            <p>{{ i() }} {{ i.label }}</p>
+        {% else %}
+            <p class="narrow-text">
+                {{ i.label }}<br>
+                {{ i(class="form-control") }}<br>
+                {% for error in i.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </p>
+        {% endif %}
+    {% endfor %}
+    {{message}}
+  <nav  aria-label="breadcrumb" style="--bs-breadcrumb-divider: ' ';">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Первый раз здесь?</li>
+          <li class="breadcrumb-item"><a href="/sign_up">Зарегистрироваться</a></li>
+      </ol>
+  </nav>
+</form>
+
+{% endblock %}

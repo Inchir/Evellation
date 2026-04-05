@@ -14,7 +14,6 @@ $breadcrumb-divider: none;
   right: 15px;  /* Отступ справа */
   /* или left: 10px; bottom: 5px; */
   background-color: lightblue;
-}
 
 .breadcrumb-item + .breadcrumb-item::before {
     content: "" !important; /* Убирает контент */
