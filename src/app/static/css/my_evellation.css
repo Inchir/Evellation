@@ -1,0 +1,7 @@
+.custom-offcanvas {
+    background-color: #c6d7f7;
+    color: #377bfa;
+}
+.custom-offcanvas .offcanvas-title{
+    color: #2870f7; /* Для заголовка и кнопки закрытия */
+}

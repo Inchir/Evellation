@@ -17,12 +17,7 @@
       <img src="/static/images/my_cancellation.png" class="card-img-top" alt="Так вот в амо">
       <div class="card-body">
           <p class="card-text">А так у нас</p>
-          <p class="card-text">ВОЙТИ</p>
-
       </div>
     </div>
 </div>
-{% if current_user.is_authenticated %}
-    <h3>{{ current_user.name }}</h3>
-{% endif %}
 {% endblock %}

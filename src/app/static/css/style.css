@@ -31,3 +31,24 @@ img {
     margin-left: auto;
     margin-right: auto;
 }
+
+/* Кнопка */
+.custom-btn {
+    color: #2d6ce0; /* Ваш цвет текста */
+    background-color: #c6d7f7;      /* Ваш цвет фона */
+    border: 2px solid #377bfa; /* Толщина, стиль, цвет */
+    transition: all 0.3s;
+}
+
+/* Дополнительно для border в состоянии hover */
+.custom-btn:hover {
+    color: #195fe0; /* Ваш цвет текста */
+    background-color: #90b6fc;      /* Ваш цвет фона */
+    border: 2px solid #377bfa; /* Толщина, стиль, цвет */
+    transform: scale(1.15); /* Увеличить в 1.2 раза */
+}
+.custom-btn:active {
+    color: #195fe0; /* Ваш цвет текста */
+    background-color: #90b6fc;      /* Ваш цвет фона */
+    border: 2px solid #377bfa; /* Толщина, стиль, цвет */
+}

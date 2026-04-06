@@ -25,7 +25,7 @@ def sign_in():
 
         if user and user.check_password(str(form.password.data)):
             login_user(user, remember=form.remember_me.data)
-            return redirect(url_for("index"))
+            return redirect(url_for("my_evellation"))
         return render_template('sign_in.html',
                                message="Неправильный логин или пароль",
                                form=form)
@@ -35,7 +35,7 @@ def sign_in():
 @user_bp.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for(""))
+    return redirect(url_for("index"))
 
 
 @user_bp.route("/sign_up", methods=['GET', 'POST'])
@@ -57,7 +57,7 @@ def sign_up():
         # логиним
         login_user(user)
 
-        return redirect(url_for('index'))
+        return redirect(url_for('my_evellation'))
 
     return render_template('sign_up.html', form=form)
 
