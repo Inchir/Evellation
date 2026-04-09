@@ -15,3 +15,15 @@ class RegisterForm(FlaskForm):
     email = EmailField('Адрес электронной почты', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     submit = SubmitField('Создать аккаунт')
+
+
+class AccountForm(FlaskForm):
+    name = StringField('Название', validators=[DataRequired()])
+    subdomain = StringField('Субдомен', validators=[DataRequired()])
+    submit = SubmitField('Добавить аккаунт')
+
+
+class TokenForm(FlaskForm):
+    token = StringField('Ключ', validators=[DataRequired()])
+    submit = SubmitField('Введите')
+

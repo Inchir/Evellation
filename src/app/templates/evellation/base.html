@@ -35,6 +35,15 @@
       </div>
           <div class="offcanvas-body">
               <a class="btn custom-btn" href="/" role="button">На главную</a>
+              <p></p>
+              <a class="btn custom-btn" href="/my.evellation/create.account" role="button">Добавить аккаунт</a>
+              <p></p>
+              <a class="btn custom-btn" href="/my.evellation/token" role="button">Ввести токен</a>
+              <h4 class="mt-5">Аккаунты</h4>
+              {% for account in accounts %}
+                <p></p>
+                <a class="btn custom-btn mx-5" href="/my.evellation/{{ account.id }}" role="button">{{ account.name }}</a>
+              {% endfor %}
          </div>
       </div>
     <main role="main" class="container">

@@ -1,5 +1,4 @@
 from flask import Blueprint, url_for
-
 from flask import render_template, session, redirect
 from flask_login import login_user, logout_user
 
@@ -16,6 +15,20 @@ from . import User
 user_bp = Blueprint('user', __name__)
 
 
+def create_user(form):
+    user = User()
+    user.name = form.name.data
+    user.email = form.email.data
+    user.set_password(form.password.data)
+    return user
+
+
+@user_bp.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
+
+
 @user_bp.route('/sign_in', methods=['GET', 'POST'])
 def sign_in():
     form = LoginForm()
@@ -25,17 +38,11 @@ def sign_in():
 
         if user and user.check_password(str(form.password.data)):
             login_user(user, remember=form.remember_me.data)
-            return redirect(url_for("my_evellation"))
+            return redirect("/my.evellation")
         return render_template('sign_in.html',
                                message="Неправильный логин или пароль",
                                form=form)
     return render_template('sign_in.html', form=form)
-
-
-@user_bp.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for("index"))
 
 
 @user_bp.route("/sign_up", methods=['GET', 'POST'])
@@ -47,7 +54,7 @@ def sign_up():
             return render_template('sign_up.html',
                                    form=form,
                                    message="Пользователь с такой почтой уже есть")
-        # создаем пользовател
+        # создаем пользователя
         user = create_user(form)
 
         # сохраняем
@@ -57,14 +64,6 @@ def sign_up():
         # логиним
         login_user(user)
 
-        return redirect(url_for('my_evellation'))
+        return redirect('/my.evellation')
 
     return render_template('sign_up.html', form=form)
-
-
-def create_user(form):
-    user = User()
-    user.name = form.name.data
-    user.email = form.email.data
-    user.set_password(form.password.data)
-    return user

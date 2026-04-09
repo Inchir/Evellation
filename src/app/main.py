@@ -24,11 +24,6 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/my.evellation")
-def my_evellation():
-    return render_template('my_evellation.html')
-
-
 if __name__ == "__main__":
     db_session.global_init("database/users.db")
     app.run("127.0.0.1", 8000, debug=True)
