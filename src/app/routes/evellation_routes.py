@@ -3,45 +3,19 @@ from flask import render_template, redirect
 from flask_login import current_user
 
 # формы
-from . import AccountForm, TokenForm
+from . import AccountForm, TokenForm, DataForm
 
 # сессия
 from . import db_session
 
 # модель
-from . import Account, User
+from . import Account
+
+# импортируем вспомогательные функции
+from . import get_templates_name, get_user, get_account, get_accounts, create_account
 
 # Create a blueprint instance
 evellation_bp = Blueprint('evellation', __name__)
-
-# константы
-PREFIX = "evellation"
-
-
-# формируем путь к шиблонам
-def get_templates_name(file_name):
-    return f"{PREFIX}/{file_name}"
-
-
-def create_account(form) -> Account:
-    account = Account()
-    account.name = form.name.data
-    account.user_id = current_user.id
-    return account
-
-
-def get_accounts(user_id) -> list:
-    db_sess = db_session.create_session()
-    return [account for account in db_sess.query(Account).filter(Account.user_id == user_id).all()]
-
-
-def get_account(account_id) -> Account:
-    db_sess = db_session.create_session()
-    return db_sess.query(Account).filter(Account.id == account_id).first()
-
-def get_user(user_id) -> User:
-    db_sess = db_session.create_session()
-    return db_sess.query(User).filter(User.id == user_id).first()
 
 
 @evellation_bp.route('/my.evellation')
@@ -49,13 +23,21 @@ def my_evellation():
     return render_template(get_templates_name("base.html"), accounts=get_accounts(current_user.id))
 
 
-@evellation_bp.route('/my.evellation/<account_id>')
+@evellation_bp.route('/my.evellation/<account_id>', methods=['GET', 'POST'])
 def my_evellation_account(account_id):
+
+    #проверяем, что это это аккаунт актуального пользователя
     account = get_account(account_id)
     if not account or account.user_id != current_user.id:
         return redirect('/my.evellation')
-    return render_template(get_templates_name("account.html"),
-                           accounts=get_accounts(current_user.id), account=account)
+
+    form = DataForm()
+    if form.validate_on_submit():
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+        data_type = form.data_type.data
+        return redirect(f'/my.evellation/{account_id}')
+    return render_template(get_templates_name("account.html"), form=form)
 
 
 @evellation_bp.route('/my.evellation/token', methods=['GET', 'POST'])
@@ -64,15 +46,14 @@ def enter_token():
     if form.validate_on_submit():
         db_sess = db_session.create_session()
 
-        #получаем полбзователя
+        # получаем полбзователя
         user = get_user(current_user.id)
 
-        #устонавливаем токен
+        # устонавливаем токен
         user.token = form.token.data
 
         db_sess.merge(user)
         db_sess.commit()
-
 
         return redirect('/my.evellation')
 

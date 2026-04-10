@@ -1,6 +1,25 @@
 {% extends "evellation/base.html" %}
-
 {% block content %}
-  <h3>qwertyu</h3>
-  <h3>{{ account }}</h3>
+<!--форма-->
+<form action="" method="post" style="display: flex; gap: 10px; align-items: center;">
+        {{ form.hidden_tag() }}
+        {% for i in form if i.name not in ['csrf_token'] %}
+            {% if i.name == 'submit' %}
+                <div>
+                    {{ i(class="btn custom-btn", style="margin-top: 32px; height: 37.5px") }}
+                </div>
+            {% else %}
+                <div>
+                    {{ i.label }}
+                    {{ i(class="form-control") }}
+                </div>
+                {% for error in i.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+                {{message}}
+            {% endif %}
+        {% endfor %}
+    </form>
 {% endblock %}

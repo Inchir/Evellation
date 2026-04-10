@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, DateField, SubmitField, EmailField, BooleanField, IntegerField
-from wtforms.validators import DataRequired
+from wtforms import PasswordField, StringField, DateField, SubmitField, EmailField, BooleanField
+from wtforms.validators import DataRequired, Optional
+
+from datetime import datetime
 
 
 class LoginForm(FlaskForm):
@@ -27,3 +29,14 @@ class TokenForm(FlaskForm):
     token = StringField('Ключ', validators=[DataRequired()])
     submit = SubmitField('Введите')
 
+
+class DataForm(FlaskForm):
+    start_date = DateField('Все события с', format='%Y-%m-%d',
+                           validators=[DataRequired()],
+                           default=datetime.now)
+    end_date = DateField('До', format='%Y-%m-%d',
+                         validators=[DataRequired()],
+                         default=datetime.now)
+    data_type = StringField('Тип событий', validators=[Optional()])
+
+    submit = SubmitField('Вывести')
