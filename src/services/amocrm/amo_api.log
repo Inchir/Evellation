@@ -1,0 +1,12 @@
+2026-04-11 17:21:22 - app_logs.log - ERROR - account2222 : Ошибка: HTTPSConnectionPool(host='account2222%20.amocrm.ru', port=443): Max retries exceeded with url: /api/v4/events?filter%5Bentity%5D=lead&with=lead_name&filter%5Btype%5D=lead_status_changed&limit=50 (Caused by NameResolutionError("HTTPSConnection(host='account2222%20.amocrm.ru', port=443): Failed to resolve 'account2222%20.amocrm.ru' ([Errno 11001] getaddrinfo failed)"))
+2026-04-11 17:21:22 - app_logs.log - ERROR - account22221: Ошибка: 401, None
+2026-04-11 17:21:23 - app_logs.log - ERROR - account2222: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-11 17:21:23 - app_logs.log - ERROR - account2222: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-11 17:23:27 - app_logs.log - ERROR - account2222 : Ошибка: HTTPSConnectionPool(host='account2222%20.amocrm.ru', port=443): Max retries exceeded with url: /api/v4/events?filter%5Bentity%5D=lead&with=lead_name&filter%5Btype%5D=lead_status_changed&limit=50 (Caused by NameResolutionError("HTTPSConnection(host='account2222%20.amocrm.ru', port=443): Failed to resolve 'account2222%20.amocrm.ru' ([Errno 11001] getaddrinfo failed)"))
+2026-04-11 17:23:28 - app_logs.log - ERROR - account22221: Ошибка: 401, None
+2026-04-11 17:23:28 - app_logs.log - ERROR - account2222: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-11 17:23:29 - app_logs.log - ERROR - account2222: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-11 17:45:43 - app_logs.log - ERROR - account2222 : Ошибка: name 'url' is not defined
+2026-04-11 17:45:43 - app_logs.log - ERROR - account22221: Ошибка: name 'url' is not defined
+2026-04-11 17:45:43 - app_logs.log - ERROR - account2222: Ошибка: name 'url' is not defined
+2026-04-11 17:45:43 - app_logs.log - ERROR - account2222: Ошибка: name 'url' is not defined

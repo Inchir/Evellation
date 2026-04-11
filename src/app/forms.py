@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, DateField, SubmitField, EmailField, BooleanField
+from wtforms import PasswordField, StringField, SubmitField, EmailField, BooleanField, DateTimeField, DateField, DateTimeLocalField
 from wtforms.validators import DataRequired, Optional
 
 from datetime import datetime
@@ -31,12 +31,16 @@ class TokenForm(FlaskForm):
 
 
 class DataForm(FlaskForm):
-    start_date = DateField('Все события с', format='%Y-%m-%d',
-                           validators=[DataRequired()],
-                           default=datetime.now)
-    end_date = DateField('До', format='%Y-%m-%d',
-                         validators=[DataRequired()],
-                         default=datetime.now)
+    start_date = DateTimeLocalField(
+        'Все события с',
+        format='%Y-%m-%dT%H:%M',
+        default=datetime.now
+    )
+    end_date = DateTimeLocalField(
+        'До',
+        format='%Y-%m-%dT%H:%M',
+        default=datetime.now
+    )
     data_type = StringField('Тип событий', validators=[Optional()])
 
     submit = SubmitField('Вывести')
