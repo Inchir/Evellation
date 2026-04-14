@@ -1,12 +1,41 @@
-2026-04-11 17:21:22 - app_logs.log - ERROR - account2222 : Ошибка: HTTPSConnectionPool(host='account2222%20.amocrm.ru', port=443): Max retries exceeded with url: /api/v4/events?filter%5Bentity%5D=lead&with=lead_name&filter%5Btype%5D=lead_status_changed&limit=50 (Caused by NameResolutionError("HTTPSConnection(host='account2222%20.amocrm.ru', port=443): Failed to resolve 'account2222%20.amocrm.ru' ([Errno 11001] getaddrinfo failed)"))
-2026-04-11 17:21:22 - app_logs.log - ERROR - account22221: Ошибка: 401, None
-2026-04-11 17:21:23 - app_logs.log - ERROR - account2222: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
-2026-04-11 17:21:23 - app_logs.log - ERROR - account2222: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
-2026-04-11 17:23:27 - app_logs.log - ERROR - account2222 : Ошибка: HTTPSConnectionPool(host='account2222%20.amocrm.ru', port=443): Max retries exceeded with url: /api/v4/events?filter%5Bentity%5D=lead&with=lead_name&filter%5Btype%5D=lead_status_changed&limit=50 (Caused by NameResolutionError("HTTPSConnection(host='account2222%20.amocrm.ru', port=443): Failed to resolve 'account2222%20.amocrm.ru' ([Errno 11001] getaddrinfo failed)"))
-2026-04-11 17:23:28 - app_logs.log - ERROR - account22221: Ошибка: 401, None
-2026-04-11 17:23:28 - app_logs.log - ERROR - account2222: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
-2026-04-11 17:23:29 - app_logs.log - ERROR - account2222: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
-2026-04-11 17:45:43 - app_logs.log - ERROR - account2222 : Ошибка: name 'url' is not defined
-2026-04-11 17:45:43 - app_logs.log - ERROR - account22221: Ошибка: name 'url' is not defined
-2026-04-11 17:45:43 - app_logs.log - ERROR - account2222: Ошибка: name 'url' is not defined
-2026-04-11 17:45:43 - app_logs.log - ERROR - account2222: Ошибка: name 'url' is not defined
+2026-04-14 19:35:05 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-14 19:35:50 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:36:00 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:37:48 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:39:51 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:40:19 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:40:47 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:42:35 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:43:13 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:43:36 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:44:10 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:44:20 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:44:59 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:46:55 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:47:42 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:48:12 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:52:26 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:52:57 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:54:18 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:55:42 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-14 19:55:52 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-14 19:56:21 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:59:10 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 19:59:18 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:03:03 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:03:04 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:03:44 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:03:48 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:03:54 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:03:58 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:04:31 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:04:35 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:06:29 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:10:10 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:10:15 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:10:40 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:13:14 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:15:36 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:15:48 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:17:01 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 20:17:13 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены

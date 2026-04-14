@@ -30,17 +30,17 @@ class TokenForm(FlaskForm):
     submit = SubmitField('Введите')
 
 
-class DataForm(FlaskForm):
+class EventsForm(FlaskForm):
     start_date = DateTimeLocalField(
         'Все события с',
         format='%Y-%m-%dT%H:%M',
-        default=datetime.now
+        default=datetime(2008, 1, 1)
     )
     end_date = DateTimeLocalField(
         'До',
         format='%Y-%m-%dT%H:%M',
         default=datetime.now
     )
-    data_type = StringField('Тип событий', validators=[Optional()])
+    event_type = StringField('Тип событий', validators=[Optional()])
 
     submit = SubmitField('Вывести')

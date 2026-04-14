@@ -1,5 +1,5 @@
 # импортируем формы
-from src.app.forms import RegisterForm, LoginForm, AccountForm, TokenForm, DataForm
+from src.app.forms import RegisterForm, LoginForm, AccountForm, TokenForm, EventsForm
 
 # импортируем сессию
 from src.models import db_session
@@ -10,6 +10,9 @@ from src.models.accounts import Account
 
 # вспомогательныые функции
 from src.app.routes.utils import *
+
+# функции для работы с api
+from src.services.amocrm.client import get_events
 
 # импортируем все blueprintы
 from src.app.routes.user_routes import user_bp

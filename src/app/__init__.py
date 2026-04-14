@@ -13,7 +13,7 @@ def setup_html_logger():
     """настройка вывода логов работы html"""
     werkzeug_logger = logging.getLogger("werkzeug")
 
-    handler = logging.FileHandler("./app/http.log", encoding="UTF-8")
+    handler = logging.FileHandler("./http.log", encoding="UTF-8")
     handler.setFormatter(
         logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'))
 

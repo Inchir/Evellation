@@ -14,6 +14,8 @@ class Account(SqlAlchemyBase):
                                       default=datetime.datetime.now)
     user_id = sqlalchemy.Column(sqlalchemy.Integer,
                                 sqlalchemy.ForeignKey("users.id"))
+    subdomain = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
     # user = orm.relationship('User')
 
     def __repr__(self):

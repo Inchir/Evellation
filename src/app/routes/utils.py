@@ -19,6 +19,7 @@ def create_account(form) -> Account:
     account = Account()
     account.name = form.name.data
     account.user_id = current_user.id
+    account.subdomain = form.subdomain.data
     return account
 
 

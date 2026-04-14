@@ -26,4 +26,5 @@ def index():
 
 if __name__ == "__main__":
     db_session.global_init("database/users.db")
+    print("* Running on http://127.0.0.1:8000")
     app.run("127.0.0.1", 8000, debug=True)
