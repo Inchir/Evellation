@@ -28,6 +28,29 @@ def get_accounts(user_id) -> list:
     return [account for account in db_sess.query(Account).filter(Account.user_id == user_id).all()]
 
 
+def set_errors(status_code) -> str | None:
+    """возвращает текст,
+    который будет показан пользователю,
+    в зависимости от кода ошибки"""
+    if status_code == 400:
+        return "Переданы некорректные параметры"
+    if status_code == 402:
+        return "аккаунт не оплачен"
+    if status_code == 401:
+        return "Неверный субдомен или токен"
+
+    if status_code == 501:
+        return "сбой при получении данных"
+    if status_code == 202:
+        return "Нет сделок за этот период"
+
+    if status_code == 200:
+        # все хорошо, сообщение показывать не надо
+        return None
+    else:
+        return "Непредвиденная ошибка"
+
+
 def get_account(account_id) -> Account:
     db_sess = db_session.create_session()
     return db_sess.query(Account).filter(Account.id == account_id).first()

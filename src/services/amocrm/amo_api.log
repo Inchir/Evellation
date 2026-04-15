@@ -39,3 +39,26 @@
 2026-04-14 20:15:48 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
 2026-04-14 20:17:01 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
 2026-04-14 20:17:13 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-14 22:55:14 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-15 16:52:43 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-15 21:02:08 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-15 21:20:51 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-15 21:20:53 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-15 21:21:10 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-15 21:21:16 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 400, {"errors":{"key":"type","value":"123"},"title":"Bad Request","type":"https://httpstatus.es/400","status":400,"detail":"Invalid params passed to filter."}
+2026-04-15 21:23:49 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 400, {"errors":{"key":"type","value":"123"},"title":"Bad Request","type":"https://httpstatus.es/400","status":400,"detail":"Invalid params passed to filter."}
+2026-04-15 21:24:58 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 400, {"errors":{"key":"type","value":"123"},"title":"Bad Request","type":"https://httpstatus.es/400","status":400,"detail":"Invalid params passed to filter."}
+2026-04-15 21:25:04 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-15 21:25:08 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 400, {"errors":{"key":"type","value":"1"},"title":"Bad Request","type":"https://httpstatus.es/400","status":400,"detail":"Invalid params passed to filter."}
+2026-04-15 21:26:06 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 400, {"errors":{"key":"type","value":"1"},"title":"Bad Request","type":"https://httpstatus.es/400","status":400,"detail":"Invalid params passed to filter."}
+2026-04-15 21:26:39 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 400, {"errors":{"key":"type","value":"1"},"title":"Bad Request","type":"https://httpstatus.es/400","status":400,"detail":"Invalid params passed to filter."}
+2026-04-15 21:26:53 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-15 21:28:27 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-15 21:28:28 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-15 21:28:33 - app_logs.log - ERROR - None: Ошибка: 402, None
+2026-04-15 21:28:45 - app_logs.log - ERROR - None: Ошибка: 402, None
+2026-04-15 21:29:33 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-15 21:29:36 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 400, {"errors":{"key":"type","value":"123"},"title":"Bad Request","type":"https://httpstatus.es/400","status":400,"detail":"Invalid params passed to filter."}
+2026-04-15 21:29:39 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены
+2026-04-15 21:30:13 - app_logs.log - ERROR - rrrrt7tttttt: Ошибка: 401, {"title":"Unauthorized","type":"https://httpstatus.es/401","status":401,"detail":"Неверный логин или пароль"}
+2026-04-15 21:30:22 - app_logs.log - INFO - rrrrt7tttttt: Данные успешно получены

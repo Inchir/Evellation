@@ -25,29 +25,31 @@
 
 
 
-
-
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">дата</th>
-          <th scope="col">автор</th>
-          <th scope="col">объект</th>
-          <th scope="col">название</th>
-          <th scope="col">событие</th>
-          <th scope="col">значение до</th>
-          <th scope="col">значение после</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for event in events %}
+    <p></p>
+    {% if not errors %}
+        <table class="table">
+          <thead>
             <tr>
-                {% for elem in event %}
-                    <td>{{ elem }}</td>
-                {% endfor %}
+              <th scope="col">дата</th>
+              <th scope="col">автор</th>
+              <th scope="col">объект</th>
+              <th scope="col">название</th>
+              <th scope="col">событие</th>
+              <th scope="col">значение до</th>
+              <th scope="col">значение после</th>
             </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+          </thead>
+          <tbody>
+            {% for event in events %}
+                <tr>
+                    {% for elem in event %}
+                        <td>{{ elem }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    {% else %}
+        <h2>{{ errors }}</h2>
+    {% endif %}
 {% endblock %}

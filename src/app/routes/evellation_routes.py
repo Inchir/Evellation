@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask import render_template, redirect
 from flask_login import current_user
+from pyexpat.errors import messages
 
 # формы
 from . import AccountForm, TokenForm, EventsForm
@@ -12,7 +13,7 @@ from . import db_session
 from . import Account
 
 # импортируем вспомогательные функции
-from . import get_templates_name, get_user, get_account, get_accounts, create_account
+from . import get_templates_name, get_user, get_account, get_accounts, create_account, set_errors
 
 # api
 from . import get_events
@@ -42,12 +43,13 @@ def my_evellation_account(account_id):
             start_date = form.start_date.data
             end_date = form.end_date.data
             event_type = form.event_type.data
-            events = get_events(account.subdomain, current_user.token,
-                                start_date, end_date, event_type)
+            events, status_code = get_events(account.subdomain, current_user.token,
+                                         start_date, end_date, event_type)
             if not events: events = []
+            errors = set_errors(status_code)
             return render_template(get_templates_name("account.html"), accounts=get_accounts(current_user.id),
                                    form=form,
-                                   events=events)
+                                   events=events, errors=errors)
         except Exception as e:
             logging.error(f"ошибка в my_evellation_account: {e}")
             return redirect(f'/my.evellation/{account_id}')

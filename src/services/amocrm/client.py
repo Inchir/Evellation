@@ -32,17 +32,17 @@ def get_events(subdomain, access_token, start_date, end_date, event_type):
         response = requests.get(APIEndpoints.BASE_URL(subdomain), headers=headers, params=params)
     except Exception as error:
         logger.error(f'{subdomain}: Ошибка: {error}')
-        return
+        return None, 501  # код о внутренней ошибке (с моей стороны)
 
     # обрабатываем данные
     if response.status_code == 200:
         events = response.json()
         logger.info(f'{subdomain}: Данные успешно получены')
-        return events_filter(events, start_date, end_date)
+        return events_filter(events, start_date, end_date), 200
     else:
         error_text = response.text if response.text else None
         logger.error(f'{subdomain}: Ошибка: {response.status_code}, {error_text}')
-        return
+        return None, response.status_code
 
 
 if __name__ == "__main__":
