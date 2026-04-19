@@ -8,6 +8,9 @@ from src.models import db_session
 # импортируем модели
 from src.models.users import User
 
+# формы
+from src.app.forms import EventsForm
+
 
 def setup_html_logger():
     """настройка вывода логов работы html"""
@@ -24,9 +27,12 @@ def setup_html_logger():
 
 
 def create_app():
+    # устанавливаем данные для формы
+
     app = Flask(__name__)
     app.config['SECRET_KEY'] = '1231231231'
     setup_html_logger()  # настраиваем вывод логгеров
+
     # Register blueprint
     for blueprint in blueprints:
         app.register_blueprint(blueprint, url_prefix='/')

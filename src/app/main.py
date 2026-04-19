@@ -5,7 +5,8 @@ from src.app import create_app
 from src.app import db_session
 
 # импортируем модели
-from src.app import User
+from src.app import User, EventsForm
+from src.models.events_type import Events_type
 
 app = create_app()
 login_manager = LoginManager()
@@ -27,4 +28,4 @@ def index():
 if __name__ == "__main__":
     db_session.global_init("database/users.db")
     print("* Running on http://127.0.0.1:8000")
-    app.run("127.0.0.1", 8000, debug=True)
+    app.run("127.0.0.1", 8000, debug=False)

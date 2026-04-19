@@ -1,7 +1,6 @@
 from flask import Blueprint
 from flask import render_template, redirect
 from flask_login import current_user
-from pyexpat.errors import messages
 
 # формы
 from . import AccountForm, TokenForm, EventsForm
@@ -37,6 +36,7 @@ def my_evellation_account(account_id):
         return redirect('/my.evellation')
 
     form = EventsForm()
+    form.set_events_form_choices(db_session)
     if form.validate_on_submit():
         try:
             account = get_account(account_id)
@@ -44,7 +44,7 @@ def my_evellation_account(account_id):
             end_date = form.end_date.data
             event_type = form.event_type.data
             events, status_code = get_events(account.subdomain, current_user.token,
-                                         start_date, end_date, event_type)
+                                             start_date, end_date, event_type)
             if not events: events = []
             errors = set_errors(status_code)
             return render_template(get_templates_name("account.html"), accounts=get_accounts(current_user.id),
@@ -77,7 +77,7 @@ def enter_token():
 
 
 @evellation_bp.route('/my.evellation/create.account', methods=['GET', 'POST'])
-def create_account():
+def my_evellation_create_account():
     form = AccountForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()

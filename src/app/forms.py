@@ -1,8 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField, EmailField, BooleanField, DateTimeField, DateField, DateTimeLocalField
+from wtforms import PasswordField, StringField, SubmitField, EmailField, BooleanField, SelectField, DateTimeLocalField
 from wtforms.validators import DataRequired, Optional
 
 from datetime import datetime
+
+
+# from utils import get_events_type
 
 
 class LoginForm(FlaskForm):
@@ -41,6 +44,16 @@ class EventsForm(FlaskForm):
         format='%Y-%m-%dT%H:%M',
         default=datetime.now
     )
-    event_type = StringField('Тип событий', validators=[Optional()])
+    # events_type = get_events_type()
+    event_type = SelectField('Тип событий', choices=[])
 
     submit = SubmitField('Вывести')
+
+    def set_events_form_choices(self, db_session) -> None:
+        """запрос к бд для получения всех типов данных"""
+        from src.models.events_type import Events_type
+        db_sess = db_session.create_session()
+        data = [event.translation for event in db_sess.query(Events_type).all()]
+        print([(str(i + 1), data[i]) for i in range(len(data))])
+        self.event_type.choices = [(i + 1, data[i]) for i in range(len(data))]
+        return

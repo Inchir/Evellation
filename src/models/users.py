@@ -19,6 +19,7 @@ class User(SqlAlchemyBase, UserMixin):
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
     token = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
     # accounts = orm.relationship("Account", back_populates='user')
 
     def __repr__(self):
