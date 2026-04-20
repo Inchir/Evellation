@@ -33,9 +33,8 @@ def logout():
 def sign_in():
     form = LoginForm()
     if form.validate_on_submit():
-        db_sess = db_session.create_session()
-        user = db_sess.query(User).filter(User.email == form.email.data).first()
-
+        with db_session.create_session() as db_sess:
+            user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(str(form.password.data)):
             login_user(user, remember=form.remember_me.data)
             return redirect("/my.evellation")
@@ -49,21 +48,21 @@ def sign_in():
 def sign_up():
     form = RegisterForm()
     if form.validate_on_submit():
-        db_sess = db_session.create_session()
-        if db_sess.query(User).filter(User.email == form.email.data).first():
-            return render_template('sign_up.html',
-                                   form=form,
-                                   message="Пользователь с такой почтой уже есть")
-        # создаем пользователя
-        user = create_user(form)
+        with db_session.create_session() as db_sess:
+            if db_sess.query(User).filter(User.email == form.email.data).first():
+                return render_template('sign_up.html',
+                                       form=form,
+                                       message="Пользователь с такой почтой уже есть")
+            # создаем пользователя
+            user = create_user(form)
 
-        # сохраняем
-        db_sess.add(user)
-        db_sess.commit()
+            # сохраняем
+            db_sess.add(user)
+            db_sess.commit()
 
-        # логиним
-        login_user(user)
+            # логиним
+            login_user(user)
 
-        return redirect('/my.evellation')
+            return redirect('/my.evellation')
 
     return render_template('sign_up.html', form=form)

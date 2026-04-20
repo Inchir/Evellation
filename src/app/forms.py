@@ -44,7 +44,6 @@ class EventsForm(FlaskForm):
         format='%Y-%m-%dT%H:%M',
         default=datetime.now
     )
-    # events_type = get_events_type()
     event_type = SelectField('Тип событий', choices=[])
 
     submit = SubmitField('Вывести')
@@ -52,8 +51,7 @@ class EventsForm(FlaskForm):
     def set_events_form_choices(self, db_session) -> None:
         """запрос к бд для получения всех типов данных"""
         from src.models.events_type import Events_type
-        db_sess = db_session.create_session()
-        data = [event.translation for event in db_sess.query(Events_type).all()]
-        print([(str(i + 1), data[i]) for i in range(len(data))])
-        self.event_type.choices = [(i + 1, data[i]) for i in range(len(data))]
+        with db_session.create_session() as db_sess:
+            events_name = [event.translation for event in db_sess.query(Events_type).all()]
+            self.event_type.choices = [(event_name, event_name) for event_name in events_name]
         return

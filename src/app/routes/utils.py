@@ -24,8 +24,18 @@ def create_account(form) -> Account:
 
 
 def get_accounts(user_id) -> list:
-    db_sess = db_session.create_session()
-    return [account for account in db_sess.query(Account).filter(Account.user_id == user_id).all()]
+    with db_session.create_session() as db_sess:
+        return [account for account in db_sess.query(Account).filter(Account.user_id == user_id).all()]
+
+
+def get_account(account_id) -> Account:
+    with db_session.create_session() as db_sess:
+        return db_sess.query(Account).filter(Account.id == account_id).first()
+
+
+def get_user(user_id) -> User:
+    with db_session.create_session() as db_sess:
+        return db_sess.query(User).filter(User.id == user_id).first()
 
 
 def set_errors(status_code) -> str | None:
@@ -43,19 +53,11 @@ def set_errors(status_code) -> str | None:
         return "сбой при получении данных"
     if status_code == 202:
         return "Нет сделок за этот период"
+    if status_code == 204:
+        return "Нет данных такого типа"
 
     if status_code == 200:
         # все хорошо, сообщение показывать не надо
         return None
     else:
         return "Непредвиденная ошибка"
-
-
-def get_account(account_id) -> Account:
-    db_sess = db_session.create_session()
-    return db_sess.query(Account).filter(Account.id == account_id).first()
-
-
-def get_user(user_id) -> User:
-    db_sess = db_session.create_session()
-    return db_sess.query(User).filter(User.id == user_id).first()

@@ -7,6 +7,7 @@ from src.models import db_session
 # импортируем модели
 from src.models.users import User
 from src.models.accounts import Account
+from src.models.events_type import Events_type
 
 # вспомогательныые функции
 from src.app.routes.utils import *
