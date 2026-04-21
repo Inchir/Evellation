@@ -1,15 +1,8 @@
 from flask import Flask
-from routes import blueprints
 
 import logging
 
-# импортируем сессию
-from src.models import db_session
-# импортируем модели
-from src.models.users import User
-
-# формы
-from src.app.forms import EventsForm
+from crm.routes import blueprints
 
 
 def setup_html_logger():

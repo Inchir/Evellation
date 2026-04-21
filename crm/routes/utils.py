@@ -1,10 +1,10 @@
 from flask_login import current_user
 
 # сессия
-from . import db_session
+from crm.models import create_session
 
 # модель
-from . import Account, User
+from crm.models import Account, User
 
 # константы
 PREFIX = "evellation"
@@ -24,17 +24,17 @@ def create_account(form) -> Account:
 
 
 def get_accounts(user_id) -> list:
-    with db_session.create_session() as db_sess:
+    with create_session() as db_sess:
         return [account for account in db_sess.query(Account).filter(Account.user_id == user_id).all()]
 
 
 def get_account(account_id) -> Account:
-    with db_session.create_session() as db_sess:
+    with create_session() as db_sess:
         return db_sess.query(Account).filter(Account.id == account_id).first()
 
 
 def get_user(user_id) -> User:
-    with db_session.create_session() as db_sess:
+    with create_session() as db_sess:
         return db_sess.query(User).filter(User.id == user_id).first()
 
 

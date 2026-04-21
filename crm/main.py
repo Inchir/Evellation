@@ -1,12 +1,14 @@
 from flask import render_template, session
 from flask_login import LoginManager
 
-from src.app import create_app
-from src.app import db_session
-
 # импортируем модели
-from src.app import User, EventsForm
-from src.models.events_type import Events_type
+from crm.models import User
+
+# импортируем сессию
+from crm.models import create_session, global_init
+
+# настройка приложения
+from crm.create_app import create_app
 
 app = create_app()
 login_manager = LoginManager()
@@ -15,7 +17,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    with db_session.create_session() as db_sess:
+    with create_session() as db_sess:
         return db_sess.get(User, user_id)
 
 
@@ -26,6 +28,6 @@ def index():
 
 
 if __name__ == "__main__":
-    db_session.global_init("database/users.db")
+    global_init("database/users.db")
     print("* Running on http://127.0.0.1:8000")
     app.run("127.0.0.1", 8000, debug=False)

@@ -2,22 +2,22 @@ from flask import Blueprint
 from flask import render_template, redirect
 from flask_login import current_user
 
+import logging
+
 # формы
-from . import AccountForm, TokenForm, EventsForm
+from crm.forms import AccountForm, TokenForm, EventsForm
 
 # сессия
-from . import db_session
+from crm.models import create_session
 
-# модель
-from . import Account, Events_type
+# модели
+from crm.models import Account, Events_type
 
 # импортируем вспомогательные функции
-from . import get_templates_name, get_user, get_account, get_accounts, create_account, set_errors
+from .utils import get_templates_name, get_user, get_account, get_accounts, create_account, set_errors
 
 # api
-from . import get_events
-
-import logging
+from crm.services.amocrm import get_events
 
 # Create a blueprint instance
 evellation_bp = Blueprint('evellation', __name__)
@@ -36,7 +36,7 @@ def my_evellation_account(account_id):
         return redirect('/my.evellation')
 
     form = EventsForm()
-    form.set_events_form_choices(db_session)
+    # form.set_events_form_choices()
     if form.validate_on_submit():
         try:
             account = get_account(account_id)
@@ -44,7 +44,7 @@ def my_evellation_account(account_id):
             end_date = form.end_date.data
 
             # получаем англ название типа события
-            with db_session.create_session() as db_sess:
+            with create_session() as db_sess:
                 event_type = db_sess.query(Events_type).filter(
                     Events_type.translation == form.event_type.data).first().name
 
@@ -67,7 +67,7 @@ def my_evellation_account(account_id):
 def enter_token():
     form = TokenForm()
     if form.validate_on_submit():
-        with db_session.create_session() as db_sess:
+        with create_session() as db_sess:
             # получаем полбзователя
             user = get_user(current_user.id)
 
@@ -86,7 +86,7 @@ def enter_token():
 def my_evellation_create_account():
     form = AccountForm()
     if form.validate_on_submit():
-        with db_session.create_session() as db_sess:
+        with create_session() as db_sess:
             if db_sess.query(Account).filter(Account.name == form.name.data,
                                              Account.user_id == current_user.id).first():
                 return render_template(get_templates_name("create_account.html"), form=form,

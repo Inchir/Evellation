@@ -1,15 +1,15 @@
 from flask import Blueprint, url_for
-from flask import render_template, session, redirect
+from flask import render_template, redirect
 from flask_login import login_user, logout_user
 
 # формы
-from . import LoginForm, RegisterForm
+from crm.forms import LoginForm, RegisterForm
 
 # сессия
-from . import db_session
+from crm.models import create_session
 
 # модель
-from . import User
+from crm.models import User
 
 # Create a blueprint instance
 user_bp = Blueprint('user', __name__)
@@ -33,7 +33,7 @@ def logout():
 def sign_in():
     form = LoginForm()
     if form.validate_on_submit():
-        with db_session.create_session() as db_sess:
+        with create_session() as db_sess:
             user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(str(form.password.data)):
             login_user(user, remember=form.remember_me.data)
@@ -48,7 +48,7 @@ def sign_in():
 def sign_up():
     form = RegisterForm()
     if form.validate_on_submit():
-        with db_session.create_session() as db_sess:
+        with create_session() as db_sess:
             if db_sess.query(User).filter(User.email == form.email.data).first():
                 return render_template('sign_up.html',
                                        form=form,
