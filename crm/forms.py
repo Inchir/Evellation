@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField, SubmitField, EmailField, BooleanField, SelectField, DateTimeLocalField
-from wtforms.validators import DataRequired, Optional
+from wtforms.validators import DataRequired
 
 from datetime import datetime
 
@@ -49,9 +49,10 @@ class EventsForm(FlaskForm):
     submit = SubmitField('Вывести')
 
     def __init__(self, *args, **kwargs):
-        """запрос к бд для получения всех типов данных"""
+        """Запрос к бд для получения всех типов данных"""
         super(EventsForm, self).__init__(*args, **kwargs)
+        self.event_type.choices = [('', "ВСЕ")]
         with create_session() as db_sess:
-            events_name = [event.translation for event in db_sess.query(Events_type).all()]
-            self.event_type.choices = [(event_name, event_name) for event_name in events_name]
+            events = [(event.name, event.translation) for event in db_sess.query(Events_type).all()]
+            self.event_type.choices += [event for event in events]
         return

@@ -6,7 +6,7 @@ from crm.routes import blueprints
 
 
 def setup_html_logger():
-    """настройка вывода логов работы html"""
+    """Настройка вывода логов работы html"""
     werkzeug_logger = logging.getLogger("werkzeug")
 
     handler = logging.FileHandler("./http.log", encoding="UTF-8")

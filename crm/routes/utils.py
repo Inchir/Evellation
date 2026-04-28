@@ -39,7 +39,7 @@ def get_user(user_id) -> User:
 
 
 def set_errors(status_code) -> str | None:
-    """возвращает текст,
+    """Возвращает текст,
     который будет показан пользователю,
     в зависимости от кода ошибки"""
     if status_code == 400:

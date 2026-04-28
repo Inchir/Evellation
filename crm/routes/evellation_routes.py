@@ -30,7 +30,7 @@ def my_evellation():
 
 @evellation_bp.route('/my.evellation/<account_id>', methods=['GET', 'POST'])
 def my_evellation_account(account_id):
-    # проверяем, что это это аккаунт актуального пользователя
+    # проверяем, что это аккаунт актуального пользователя
     account = get_account(account_id)
     if not account or account.user_id != current_user.id:
         return redirect('/my.evellation')
@@ -38,27 +38,24 @@ def my_evellation_account(account_id):
     form = EventsForm()
     # form.set_events_form_choices()
     if form.validate_on_submit():
-        try:
-            account = get_account(account_id)
-            start_date = form.start_date.data
-            end_date = form.end_date.data
+        account = get_account(account_id)
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+        event_type = form.event_type.data
 
-            # получаем англ название типа события
-            with create_session() as db_sess:
-                event_type = db_sess.query(Events_type).filter(
-                    Events_type.translation == form.event_type.data).first().name
-
-            # получаем события
-            events, status_code = get_events(account.subdomain, current_user.token,
-                                             start_date, end_date, event_type)
-            if not events: events = []
-            errors = set_errors(status_code)
-            return render_template(get_templates_name("account.html"), accounts=get_accounts(current_user.id),
-                                   form=form,
-                                   events=events, errors=errors)
-        except Exception as e:
-            logging.error(f"ошибка в my_evellation_account: {e}")
-            return redirect(f'/my.evellation/{account_id}')
+        # получаем события
+        events, status_code = get_events(account.subdomain, current_user.token,
+                                         start_date, end_date, event_type)
+        if not events: events = []
+        errors = set_errors(status_code)
+        return render_template(get_templates_name("account.html"), accounts=get_accounts(current_user.id),
+                               form=form,
+                               events=events, errors=errors)
+        # try:
+        #
+        # except Exception as e:
+        #     logging.error(f"ошибка в my_evellation_account: {e}")
+        #     return redirect(f'/my.evellation/{account_id}')
 
     return render_template(get_templates_name("account.html"), accounts=get_accounts(current_user.id), form=form)
 

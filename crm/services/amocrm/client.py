@@ -13,7 +13,7 @@ logger = setup_logger("app_logs.log", "./services/amocrm/amo_api.log")
 
 # получаем данные клиента
 def get_events(subdomain, access_token, start_date, end_date, event_type):
-    """получаем события (только сделки)
+    """Получаем события (только сделки)
     фильтрует по дате (с помощью events_filter)
     и по типу события"""
     headers = {
@@ -26,7 +26,7 @@ def get_events(subdomain, access_token, start_date, end_date, event_type):
         'with': 'lead_name',
         'limit': 50
     }
-    if event_type: params['filter[type]'] = event_type  # Тип события
+    if event_type: params['filter[type]'] = event_type  # Тип события None, если выбраны ВСЕ типы
 
     # пытаемся получить данные
     try:
