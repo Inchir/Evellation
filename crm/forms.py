@@ -42,7 +42,7 @@ class EventsForm(FlaskForm):
     end_date = DateTimeLocalField(
         'До',
         format='%Y-%m-%dT%H:%M',
-        default=datetime.now
+        default=datetime(2027, 1, 1)
     )
     event_type = SelectField('Тип событий', choices=[])
 

@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask import render_template, redirect
+from flask import render_template, redirect, request, jsonify
 from flask_login import current_user
 
 import logging
@@ -11,13 +11,16 @@ from crm.forms import AccountForm, TokenForm, EventsForm
 from crm.models import create_session
 
 # модели
-from crm.models import Account, Events_type
+from crm.models import Account
 
 # импортируем вспомогательные функции
 from .utils import get_templates_name, get_user, get_account, get_accounts, create_account, set_errors
 
 # api
-from crm.services.amocrm import get_events
+from crm.services.amocrm import get_events, edit_leads
+
+# redis
+from crm.services.amocrm import redis_get_event
 
 # Create a blueprint instance
 evellation_bp = Blueprint('evellation', __name__)
@@ -28,6 +31,23 @@ def my_evellation():
     return render_template(get_templates_name("base.html"), accounts=get_accounts(current_user.id))
 
 
+@evellation_bp.route("/edit_event/<account_id>", methods=["POST"])
+def edit_event(account_id):
+    data = request.get_json()
+    print('data: ', data)
+    print('data keys: ', data.keys())
+    event_index = data.get("eventIndex")
+    print("event_index:", event_index)
+
+    data = redis_get_event(current_user.get_id(), str(event_index))
+    print(data)
+    del data['index']
+    account = get_account(account_id)
+    print(edit_leads(account.subdomain, current_user.token, [data]))
+
+    return jsonify({"status": "ok"})
+
+
 @evellation_bp.route('/my.evellation/<account_id>', methods=['GET', 'POST'])
 def my_evellation_account(account_id):
     # проверяем, что это аккаунт актуального пользователя
@@ -36,27 +56,25 @@ def my_evellation_account(account_id):
         return redirect('/my.evellation')
 
     form = EventsForm()
-    # form.set_events_form_choices()
-    if form.validate_on_submit():
-        account = get_account(account_id)
-        start_date = form.start_date.data
-        end_date = form.end_date.data
-        event_type = form.event_type.data
+    try:
+        if form.validate_on_submit():
+            account = get_account(account_id)
+            start_date = form.start_date.data
+            end_date = form.end_date.data
+            event_type = form.event_type.data
 
-        # получаем события
-        events, status_code = get_events(account.subdomain, current_user.token,
-                                         start_date, end_date, event_type)
-        if not events: events = []
-        errors = set_errors(status_code)
-        return render_template(get_templates_name("account.html"), accounts=get_accounts(current_user.id),
-                               form=form,
-                               events=events, errors=errors)
-        # try:
-        #
-        # except Exception as e:
-        #     logging.error(f"ошибка в my_evellation_account: {e}")
-        #     return redirect(f'/my.evellation/{account_id}')
-
+            # получаем события
+            events, status_code = get_events(account.subdomain, current_user.token,
+                                             start_date, end_date, event_type)
+            if not events: events = []
+            errors = set_errors(status_code)
+            return render_template(get_templates_name("account.html"), accounts=get_accounts(current_user.id),
+                                   account_id=account_id,
+                                   form=form,
+                                   events=events, errors=errors)
+    except Exception as e:
+        logging.error(f"ошибка в my_evellation_account: {e}")
+        return redirect(f'/my.evellation/{account_id}')
     return render_template(get_templates_name("account.html"), accounts=get_accounts(current_user.id), form=form)
 
 

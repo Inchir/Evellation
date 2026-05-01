@@ -22,7 +22,7 @@ def global_init(db_file):
 
     if not db_file or not db_file.strip():
         raise Exception("Необходимо указать файл базы данных.")
-    pool_logger = setup_logger("sqlalchemy.pool", "./pool_logger.log", level=logging.DEBUG)
+    pool_logger = setup_logger("sqlalchemy.pool", "./pool_logger.log", level=logging.INFO)
 
     db_file = db_file.strip()
 
@@ -31,7 +31,7 @@ def global_init(db_file):
     conn_str = f'sqlite:///{db_file}?check_same_thread=False'
     print(f"Подключение к базе данных по адресу {conn_str}")
 
-    engine = sa.create_engine(conn_str, echo_pool=True)
+    engine = sa.create_engine(conn_str, echo_pool=False)
     __factory = orm.sessionmaker(bind=engine)
 
     from . import __all_models

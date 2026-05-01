@@ -1,5 +1,34 @@
 {% extends "evellation/base.html" %}
 {% block content %}
+<script>
+window.handleClick = function handleClick(btn) {
+    const row = btn.closest("tr");
+    const accountId = row.dataset.accountId;
+    const eventIndex = row.dataset.eventIndex;
+
+    const url = `/edit_event/${accountId}`; // строка в обратных кавычках
+
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            eventIndex: eventIndex
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+
+        // например удаляем строку из таблицы
+        // row.remove();
+    });
+
+    location.reload();
+}
+</script>
+
 <!--форма-->
 <form action="" method="post" style="display: flex; gap: 10px; align-items: center;">
         {{ form.hidden_tag() }}
@@ -23,8 +52,6 @@
         {% endfor %}
     </form>
 
-
-
     <p></p>
     {% if not errors %}
         <table class="table">
@@ -37,14 +64,16 @@
               <th scope="col">событие</th>
               <th scope="col">значение до</th>
               <th scope="col">значение после</th>
+              <th scope="col">ОТМЕНИТЬ</th>
             </tr>
           </thead>
           <tbody>
             {% for event in events %}
-                <tr>
-                    {% for elem in event %}
+                <tr data-account-id="{{ account_id }}" data-event-index="{{ event.index }}">
+                    {% for elem in event['data'] %}
                         <td>{{ elem }}</td>
                     {% endfor %}
+                    <td><button class="btn custom-btn" onclick="handleClick(this)">X</button></td>
                 </tr>
             {% endfor %}
           </tbody>
