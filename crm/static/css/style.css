@@ -32,6 +32,10 @@ img {
     margin-right: auto;
 }
 
+
+.app-header {
+            padding: 24px 32px;
+        }
 /* Кнопка */
 .custom-btn {
     color: #2d6ce0; /* Ваш цвет текста */
@@ -39,9 +43,6 @@ img {
     border: 2px solid #377bfa; /* Толщина, стиль, цвет */
     transition: all 0.3s;
 }
-.app-header {
-            padding: 24px 32px;
-        }
 
 /* Дополнительно для border в состоянии hover */
 .custom-btn:hover {

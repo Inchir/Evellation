@@ -10,6 +10,8 @@ r = redis.Redis(
     host='redis-10536.c300.eu-central-1-1.ec2.cloud.redislabs.com',
     port=10536,
     decode_responses=True,
+    socket_timeout=3,
+    socket_connect_timeout=3,
     username="default",
     password="E3WHmd4iU69RQO0okSIBxq9UcUI702Ku",
 )
@@ -34,8 +36,6 @@ def redis_get_event(user_id, event_index):
         return None
 
     data = json.loads(raw)  # type: ignore
-    print(data)
-    print(event_index)
     return data.get(event_index)
 
 
@@ -52,7 +52,7 @@ def events_filter(data, start_date, end_date):
         name = event['_embedded']['entity'].get('name', "Без имени")
         event_type = event.get('type', "Данных нет")
 
-        value_before, value_after = '', ''
+        value_before, value_after = "", ""
         if event.get('value_before', ''):
             value_before = get_value(event['value_before'][0])
 
@@ -75,13 +75,13 @@ def events_filter(data, start_date, end_date):
             save_data.append({'index': index, 'id': event_id, 'tags_to_add': [{'name': value_before}, ]})
 
         if start_date <= datetime.fromtimestamp(float(event['created_at'])) <= end_date:
-            format_data.append({'index': index,
-                                'utils': {'id': event_id},
-                                'data': {'created_data': created_data, 'created_by': creator_id,
-                                         'object_name': object_name, 'name': name, 'event_type': event_type,
-                                         'value_before': value_before,
-                                         'value_after': value_after}})
-    print("start save: ", save_data)
+            format_data.append({"index": index,
+                                "utils": {"id": event_id},
+                                "data": {"created_data": created_data, "created_by": creator_id,
+                                         "object_name": object_name, "name": name, "event_type": event_type,
+                                         "value_before": value_before,
+                                         "value_after": value_after}})
+    # print("start save: ", save_data)
     redis_save_events(current_user_id, save_data)
     print("end_save")
     return format_data

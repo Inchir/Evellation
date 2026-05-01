@@ -22,16 +22,39 @@ window.handleClick = function handleClick(btn) {
     .then(data => {
         console.log(data);
 
-        // например удаляем строку из таблицы
-        // row.remove();
-    });
-
+    // обновляем страницу
     location.reload();
+    });
+}
+window.massHandleClick = function massHandleClick(btn) {
+    const row = btn.closest(".filters");
+    const accountId = row.dataset.accountId;
+    const eventsIndex = JSON.parse(row.dataset.eventsIndex);
+
+    const url = `/edit_events/${accountId}`; // строка в обратных кавычках
+
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            events: eventsIndex
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+
+    // обновляем страницу
+    location.reload();
+    });
 }
 </script>
 
 <!--форма-->
-<form action="" method="post" class="filters">
+<div class="filters" data-account-id="{{ account_id }}" data-events-index='{{ events_index }}'>
+<form action="" method="post"  class="form-filters">
         {{ form.hidden_tag() }}
         {% for i in form if i.name not in ['csrf_token'] %}
             {% if i.name == 'submit' %}
@@ -51,7 +74,13 @@ window.handleClick = function handleClick(btn) {
                 {{message}}
             {% endif %}
         {% endfor %}
+
+
     </form>
+    <button class="btn-danger-mass" style="margin-top: 32px; height: 37.5px" onclick="massHandleClick(this)" title="Отменить действие">
+            ↩ Отменить все
+        </button>
+    </div>
     <p></p>
 {% if not errors %}
         <table class="table-modern">

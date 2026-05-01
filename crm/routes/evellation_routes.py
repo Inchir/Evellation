@@ -34,16 +34,33 @@ def my_evellation():
     return render_template(get_templates_name("base.html"), accounts=get_accounts(current_user.id))
 
 
+@evellation_bp.route("/edit_events/<account_id>", methods=["POST"])
+def edit_events(account_id):
+    # отмена всех сделок
+
+    print("Массовое действие!!!")
+
+    data = request.get_json()
+    events_index = data.get("events")
+    account = get_account(account_id)
+
+    data = []
+    for index in events_index:
+        b = redis_get_event(current_user.get_id(), str(index))
+        del b['index']
+        data.append(b)
+
+    print(edit_leads(account.subdomain, current_user.token, data))
+    return jsonify({"status": "ok"})
+
+
+
+
 @evellation_bp.route("/edit_event/<account_id>", methods=["POST"])
 def edit_event(account_id):
     data = request.get_json()
-    print('data: ', data)
-    print('data keys: ', data.keys())
     event_index = data.get("eventIndex")
-    print("event_index:", event_index)
-
     data = redis_get_event(current_user.get_id(), str(event_index))
-    print(data)
     del data['index']
     account = get_account(account_id)
     print(edit_leads(account.subdomain, current_user.token, [data]))
@@ -73,8 +90,10 @@ def my_evellation_account(account_id):
         with create_session() as db_sess:
             # английское название сделки - перевод
             translating_events = {event.name: event.translation for event in db_sess.query(Events_type).all()}
+        events_index = []
 
         for event in events:
+            events_index.append(event["index"])
             created_by = event['data']['created_by']  # id автора
             if created_by in users:
                 user_name = users[created_by]
@@ -96,7 +115,7 @@ def my_evellation_account(account_id):
         return render_template(get_templates_name("account.html"), accounts=get_accounts(current_user.id),
                                account_id=account_id,
                                form=form,
-                               events=events, errors=errors)
+                               events=events, events_index=events_index, errors=errors)
     # try:
     #
     # except Exception as e:

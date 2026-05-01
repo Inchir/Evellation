@@ -19,6 +19,25 @@
     background: #ffd6d6;
 }
 
+/* Кнопка массовой отмены */
+.btn-danger-mass {
+align-items: center;
+    justify-content: flex-start;
+    width: 25%;
+    background: #ffecec;
+    color: #d33;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid #d34; /* Толщина, стиль, цвет */
+        transition: all 0.3s;
+
+}
+.btn-danger-mass:hover {
+    background: #ffd6d6;
+    transform: scale(1.05); /* Увеличить в 1.2 раза */
+}
+
 /* Блок фильтров */
 .filters {
     background: #f8f9fb;
@@ -30,6 +49,14 @@
     margin-bottom: 20px;
 }
 
+.form-filters {
+    background: #f8f9fb;
+
+    border-radius: 10px;
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+}
 
 /* Таблица */
 .table-modern {
