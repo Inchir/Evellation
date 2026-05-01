@@ -47,7 +47,7 @@ def events_filter(data, start_date, end_date):
         event_id = event['entity_id']
 
         created_data = datetime.fromtimestamp(float(event['created_at']))
-        creator_id = event.get('created_at', "Данных нет")
+        creator_id = event.get('created_by', "Данных нет")
         object_name = "Сделка"
         name = event['_embedded']['entity'].get('name', "Без имени")
         event_type = event.get('type', "Данных нет")
@@ -73,13 +73,14 @@ def events_filter(data, start_date, end_date):
             save_data.append({'index': index, 'id': event_id, 'tags_to_delete': [{'name': value_after}, ]})
         elif event['type'] == 'entity_tag_deleted':
             save_data.append({'index': index, 'id': event_id, 'tags_to_add': [{'name': value_before}, ]})
-        print(event['type'], event)
-        print()
 
         if start_date <= datetime.fromtimestamp(float(event['created_at'])) <= end_date:
             format_data.append({'index': index,
-                                'data': [created_data, creator_id, object_name, name, event_type, value_before,
-                                         value_after]})
+                                'utils': {'id': event_id},
+                                'data': {'created_data': created_data, 'created_by': creator_id,
+                                         'object_name': object_name, 'name': name, 'event_type': event_type,
+                                         'value_before': value_before,
+                                         'value_after': value_after}})
     print("start save: ", save_data)
     redis_save_events(current_user_id, save_data)
     print("end_save")

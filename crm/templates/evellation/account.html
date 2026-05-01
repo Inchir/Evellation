@@ -1,4 +1,5 @@
 {% extends "evellation/base.html" %}
+
 {% block content %}
 <script>
 window.handleClick = function handleClick(btn) {
@@ -30,7 +31,7 @@ window.handleClick = function handleClick(btn) {
 </script>
 
 <!--форма-->
-<form action="" method="post" style="display: flex; gap: 10px; align-items: center;">
+<form action="" method="post" class="filters">
         {{ form.hidden_tag() }}
         {% for i in form if i.name not in ['csrf_token'] %}
             {% if i.name == 'submit' %}
@@ -51,10 +52,9 @@ window.handleClick = function handleClick(btn) {
             {% endif %}
         {% endfor %}
     </form>
-
     <p></p>
-    {% if not errors %}
-        <table class="table">
+{% if not errors %}
+        <table class="table-modern">
           <thead>
             <tr>
               <th scope="col">дата</th>
@@ -64,16 +64,28 @@ window.handleClick = function handleClick(btn) {
               <th scope="col">событие</th>
               <th scope="col">значение до</th>
               <th scope="col">значение после</th>
-              <th scope="col">ОТМЕНИТЬ</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             {% for event in events %}
                 <tr data-account-id="{{ account_id }}" data-event-index="{{ event.index }}">
-                    {% for elem in event['data'] %}
-                        <td>{{ elem }}</td>
+                    {% for key, elem in event['data'].items() %}
+                        {% if key == 'object_name' %}
+                            <td>
+                                <a href="https://{{ event['utils']['subdomain'] }}.amocrm.ru/leads/detail/{{ event['utils']['id'] }}">
+                                    {{ elem }}
+                                </a>
+                            </td>
+                        {% else %}
+                            <td>{{ elem }}</td>
+                        {% endif %}
                     {% endfor %}
-                    <td><button class="btn custom-btn" onclick="handleClick(this)">X</button></td>
+                    <td>
+                        <button class="btn-danger-soft" onclick="handleClick(this)" title="Отменить действие">
+                            ↩
+                        </button>
+                    </td>
                 </tr>
             {% endfor %}
           </tbody>

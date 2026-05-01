@@ -17,10 +17,13 @@ from crm.models import Account
 from .utils import get_templates_name, get_user, get_account, get_accounts, create_account, set_errors
 
 # api
-from crm.services.amocrm import get_events, edit_leads
+from crm.services.amocrm import get_events, edit_leads, get_user_by_id
 
 # redis
 from crm.services.amocrm import redis_get_event
+
+# модели
+from crm.models import Events_type
 
 # Create a blueprint instance
 evellation_bp = Blueprint('evellation', __name__)
@@ -56,25 +59,49 @@ def my_evellation_account(account_id):
         return redirect('/my.evellation')
 
     form = EventsForm()
-    try:
-        if form.validate_on_submit():
-            account = get_account(account_id)
-            start_date = form.start_date.data
-            end_date = form.end_date.data
-            event_type = form.event_type.data
+    if form.validate_on_submit():
+        account = get_account(account_id)
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+        event_type = form.event_type.data
 
-            # получаем события
-            events, status_code = get_events(account.subdomain, current_user.token,
-                                             start_date, end_date, event_type)
-            if not events: events = []
-            errors = set_errors(status_code)
-            return render_template(get_templates_name("account.html"), accounts=get_accounts(current_user.id),
-                                   account_id=account_id,
-                                   form=form,
-                                   events=events, errors=errors)
-    except Exception as e:
-        logging.error(f"ошибка в my_evellation_account: {e}")
-        return redirect(f'/my.evellation/{account_id}')
+        # получаем события
+        events, status_code = get_events(account.subdomain, current_user.token,
+                                         start_date, end_date, event_type)
+        if not events: events = []
+        users = {}  # храним id пользователя - имя
+        with create_session() as db_sess:
+            # английское название сделки - перевод
+            translating_events = {event.name: event.translation for event in db_sess.query(Events_type).all()}
+
+        for event in events:
+            created_by = event['data']['created_by']  # id автора
+            if created_by in users:
+                user_name = users[created_by]
+            else:
+                if created_by == 0:
+                    user_name = "Робот"
+                else:
+                    user, status_code = get_user_by_id(account.subdomain, current_user.token, created_by)
+                    if status_code == 200:
+                        user_name = user['name']
+                    else:
+                        user_name = 'Нет данных'
+                users[created_by] = user_name  # запоминаем пользователей, чтобы каждый раз не обращаться к api
+            event['data']['created_by'] = user_name
+            event['utils']['subdomain'] = account.subdomain  # передаем субдомен для формирования ссылок
+            event['data']['event_type'] = translating_events.get(event['data']['event_type'], event['data'][
+                'event_type'])  # переводим название события, если перевода нет, оставляем как есть
+        errors = set_errors(status_code)
+        return render_template(get_templates_name("account.html"), accounts=get_accounts(current_user.id),
+                               account_id=account_id,
+                               form=form,
+                               events=events, errors=errors)
+    # try:
+    #
+    # except Exception as e:
+    #     logging.error(f"ошибка в my_evellation_account: {e}")
+    #     return redirect(f'/my.evellation/{account_id}')
     return render_template(get_templates_name("account.html"), accounts=get_accounts(current_user.id), form=form)
 
 

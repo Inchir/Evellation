@@ -1,5 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+<STYLE>
+     .sidebar-link {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #1f2937;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            transition: 0.15s ease;
+        }
+    .sidebar-link:hover {
+            color: #2563eb;
+            background: #f0f5ff;
+            border-color: #bfdbfe;
+        }
+
+</STYLE>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,25 +46,29 @@
 
 
     <div class="offcanvas offcanvas-start custom-offcanvas" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" data-bs-backdrop="false">
-      <div class="offcanvas-header">
-
-        {% if current_user.is_authenticated %}
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">{{ current_user.name }}</h5>
-        {% endif %}
+      <div class="offcanvas-header border-bottom">
+        <div>
+                <div class="text-muted small">Пользователь</div>
+                <h5 class="offcanvas-title sidebar-user mb-0" id="accountsMenuLabel">
+                    {{ current_user.name }}
+                </h5>
+            </div>
 
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
       </div>
           <div class="offcanvas-body">
-              <a class="btn custom-btn" href="/" role="button">На главную</a>
-              <p></p>
-              <a class="btn custom-btn" href="/my.evellation/create.account" role="button">Добавить аккаунт</a>
-              <p></p>
-              <a class="btn custom-btn" href="/my.evellation/token" role="button">Ввести токен</a>
-              <h4 class="mt-5">Аккаунты</h4>
-              {% for account in accounts %}
-                <p></p>
-                <a class="btn custom-btn mx-5" href="/my.evellation/{{ account.id }}" role="button">{{ account.name }}</a>
-              {% endfor %}
+              <div class="sidebar-section-title">Навигация</div>
+              <nav class="sidebar-nav">
+                  <a class="btn custom-menu-btn" href="/" role="button">На главную</a>
+                  <a class="btn custom-menu-btn" href="/my.evellation/create.account" role="button">Добавить аккаунт</a>
+                  <a class="btn custom-menu-btn" href="/my.evellation/token" role="button">Ввести токен</a>
+              </nav>
+        <div class="sidebar-section-title">Аккаунты</div>
+              <div class="account-list">
+                  {% for account in accounts %}
+                    <a class="btn custom-menu-btn" href="/my.evellation/{{ account.id }}" role="button">{{ account.name }}</a>
+                  {% endfor %}
+              </div>
          </div>
       </div>
     <main role="main" class="container">

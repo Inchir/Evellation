@@ -36,7 +36,8 @@ def get_events(subdomain, access_token, start_date, end_date, event_type):
     if response.status_code == 200:
         events = response.json()
         logger.info(f'{subdomain}: Данные успешно получены')
-        return events_filter(events, start_date, end_date), 200
+        events = events_filter(events, start_date, end_date)
+        return events, 200
     else:
         error_text = response.text if response.text else None
         logger.error(f'{subdomain}: Ошибка: {response.status_code}, {error_text}')
@@ -65,3 +66,23 @@ def edit_leads(subdomain, access_token, params: list[dict]):
         error_text = response.text if response.text else None
         logger.error(f'{subdomain}: Ошибка: {response.status_code}, {error_text}')
         return response.status_code
+
+
+def get_user_by_id(subdomain, access_token, user_id):
+    # пытаемся получить данные
+    try:
+        response = requests.get(APIEndpoints.GET_USER_URL(subdomain, user_id),
+                                headers=APIEndpoints.HEADERS(access_token))
+        print(APIEndpoints.GET_USER_URL(subdomain, user_id))
+    except Exception as error:
+        logger.error(f'{subdomain}: Ошибка: {error}')
+        return None, 501  # код о внутренней ошибке (с моей стороны)
+
+    # обрабатываем данные
+    if response.status_code == 200:
+        logger.info(f'{subdomain}: Сделки успешно изменены')
+        return response.json(), 200
+    else:
+        error_text = response.text if response.text else None
+        logger.error(f'{subdomain}: Ошибка: {response.status_code}, {error_text}')
+        return None, response.status_code

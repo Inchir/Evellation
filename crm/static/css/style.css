@@ -39,6 +39,9 @@ img {
     border: 2px solid #377bfa; /* Толщина, стиль, цвет */
     transition: all 0.3s;
 }
+.app-header {
+            padding: 24px 32px;
+        }
 
 /* Дополнительно для border в состоянии hover */
 .custom-btn:hover {
@@ -52,3 +55,57 @@ img {
     background-color: #90b6fc;      /* Ваш цвет фона */
     border: 2px solid #377bfa; /* Толщина, стиль, цвет */
 }
+
+/* Кнопка для меню*/
+
+.custom-menu-btn {
+display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+
+    color: #2d6ce0; /* Ваш цвет текста */
+    background-color: #c6d7f7;      /* Ваш цвет фона */
+    border: 2px solid #377bfa; /* Толщина, стиль, цвет */
+    transition: all 0.3s;
+}
+
+/* Дополнительно для border в состоянии hover */
+.custom-menu-btn:hover {
+    color: #195fe0; /* Ваш цвет текста */
+    background-color: #90b6fc;      /* Ваш цвет фона */
+    border: 2px solid #377bfa; /* Толщина, стиль, цвет */
+    transform: scale(1.05); /* Увеличить в 1.05 раза */
+}
+.custom-menu-btn:active {
+    color: #195fe0; /* Ваш цвет текста */
+    background-color: #90b6fc;      /* Ваш цвет фона */
+    border: 2px solid #377bfa; /* Толщина, стиль, цвет */
+}
+
+
+
+.account-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar-section-title {
+            margin-top: 28px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+   .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
