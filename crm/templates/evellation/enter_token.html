@@ -2,33 +2,30 @@
 
 {% block content %}
 
-
-    <form action="" method="post" style="margin: 0px; padding: 0px">
+<div class="key-page">
+    <form action="" method="post" class="key-form">
         {{ form.hidden_tag() }}
+
         {% for i in form %}
-            {% if i.type == 'SubmitField' %}
-                <p class="button-text">{{ form.submit(type="submit", class="btn custom-btn") }}</p>
-            {% elif i.type == 'CSRFTokenField' %}
-                {# если тип - CSRF просто ничего не делать #}
-            {% elif i.type == 'BooleanField' %}
-                <p>{{ i() }} {{ i.label }}</p>
+            {% if i.type == 'CSRFTokenField' %}
+
+            {% elif i.type == 'SubmitField' %}
+                <div class="key-actions">
+                    {{ i(class="btn custom-btn") }}
+                </div>
+
             {% else %}
-                <p class="narrow-text">
-                    {{ i.label }}<br>
-                    {{ i(class="form-control") }}<br>
-                    {% for error in i.errors %}
-                        <p class="alert alert-danger" role="alert">
-                            {{ error }}
-                        </p>
-                    {% endfor %}
-                {{message}}
-                </p>
+                <div class="key-group">
+                    <label class="key-label">{{ i.label }}</label>
+                    {{ i(class="form-control key-input") }}
+                </div>
             {% endif %}
         {% endfor %}
-      <nav  aria-label="breadcrumb" style="--bs-breadcrumb-divider: ' ';">
-          <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="https://www.amocrm.ru/">Перейти в amocrm</a></li>
-          </ol>
-      </nav>
+
+        <nav class="key-link-block" aria-label="breadcrumb">
+            <a href="https://www.amocrm.ru/">Перейти в amocrm</a>
+        </nav>
     </form>
+</div>
+
 {% endblock %}

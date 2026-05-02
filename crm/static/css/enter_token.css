@@ -1,0 +1,49 @@
+.key-page {
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 16px;
+}
+
+.key-form {
+    width: 100%;
+    max-width: 420px;
+    padding: 28px;
+    border-radius: 18px;
+    background: #f7f7f7;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14);
+}
+
+.key-group {
+    margin-bottom: 20px;
+}
+
+.key-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.key-input {
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.key-actions {
+    margin-top: 22px;
+    text-align: center;
+}
+
+.key-link-block {
+    margin-top: 22px;
+    padding: 14px;
+    border-radius: 12px;
+    background: #e9ecef;
+    text-align: center;
+}
+
+.key-link-block a {
+    text-decoration: none;
+}

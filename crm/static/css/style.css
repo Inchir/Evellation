@@ -57,6 +57,29 @@ img {
     border: 2px solid #377bfa; /* Толщина, стиль, цвет */
 }
 
+/* Серая кнопка */
+.custom-grey-btn {
+    color: #4a4a4a;           /* тёмно-серый текст */
+    background-color: #d6d6d6; /* светло-серый фон */
+    border: 2px solid #8a8a8a; /* серый бордер */
+    transition: all 0.3s;
+}
+
+/* Hover */
+.custom-grey-btn:hover {
+    color: #2f2f2f;           /* более тёмный текст */
+    background-color: #bfbfbf; /* чуть темнее фон */
+    border: 2px solid #8a8a8a;
+    transform: scale(1.15);
+}
+
+/* Active */
+.custom-grey-btn:active {
+    color: #2f2f2f;
+    background-color: #a8a8a8; /* ещё темнее при нажатии */
+    border: 2px solid #8a8a8a;
+}
+
 /* Кнопка для меню*/
 
 .custom-menu-btn {

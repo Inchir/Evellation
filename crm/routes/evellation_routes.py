@@ -140,7 +140,7 @@ def enter_token():
 
             return redirect('/my.evellation')
 
-    return render_template(get_templates_name("create_account.html"), form=form)
+    return render_template(get_templates_name("enter_token.html"), form=form)
 
 
 @evellation_bp.route('/my.evellation/create.account', methods=['GET', 'POST'])

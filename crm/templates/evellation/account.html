@@ -1,56 +1,33 @@
 {% extends "evellation/base.html" %}
 
 {% block content %}
-<script>
-window.handleClick = function handleClick(btn) {
-    const row = btn.closest("tr");
-    const accountId = row.dataset.accountId;
-    const eventIndex = row.dataset.eventIndex;
+<script src="/static/js/account.js" defer></script>
+<!-- Модальное окно -->
+<div class="modal fade custom-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal-content">
 
-    const url = `/edit_event/${accountId}`; // строка в обратных кавычках
+      <div class="modal-header custom-modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Хотите отменить действия?
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
 
-    fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            eventIndex: eventIndex
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
+      <div class="modal-body custom-modal-body">
+        <div class="modal-icon">!</div>
+        <h2>Будет отменено {{ events_index|length }} шт.</h2>
+        <p>Это действие может повлиять на выбранные события.</p>
+      </div>
 
-    // обновляем страницу
-    location.reload();
-    });
-}
-window.massHandleClick = function massHandleClick(btn) {
-    const row = btn.closest(".filters");
-    const accountId = row.dataset.accountId;
-    const eventsIndex = JSON.parse(row.dataset.eventsIndex);
+      <div class="modal-footer custom-modal-footer">
+        <button id="confirmMassCancel" type="button" class="btn custom-btn">Да</button>
+        <button id="rejectMassCancel" type="button" class="btn custom-grey-btn">Нет</button>
+      </div>
 
-    const url = `/edit_events/${accountId}`; // строка в обратных кавычках
-
-    fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            events: eventsIndex
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-
-    // обновляем страницу
-    location.reload();
-    });
-}
-</script>
+    </div>
+  </div>
+</div>
 
 <!--форма-->
 <div class="filters" data-account-id="{{ account_id }}" data-events-index='{{ events_index }}'>
@@ -77,10 +54,25 @@ window.massHandleClick = function massHandleClick(btn) {
 
 
     </form>
-    <button class="btn-danger-mass" style="margin-top: 32px; height: 37.5px" onclick="massHandleClick(this)" title="Отменить действие">
+    <button class="btn-danger-mass" style="margin-top: 32px; height: 37.5px" title="Отменить действие">
             ↩ Отменить все
         </button>
     </div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <img src="..." class="rounded me-2" alt="...">
+      <strong class="me-auto">Bootstrap</strong>
+      <small>11 мин назад</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+    </div>
+    <div class="toast-body">
+      Привет, мир! Это тост-сообщение.
+    </div>
+  </div>
+</div>
+
     <p></p>
 {% if not errors %}
         <table class="table-modern">
@@ -111,7 +103,7 @@ window.massHandleClick = function massHandleClick(btn) {
                         {% endif %}
                     {% endfor %}
                     <td>
-                        <button class="btn-danger-soft" onclick="handleClick(this)" title="Отменить действие">
+                        <button class="btn-danger-soft" title="Отменить действие">
                             ↩
                         </button>
                     </td>

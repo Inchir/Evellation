@@ -83,3 +83,76 @@ align-items: center;
 .table-modern tr:hover {
     background: #f9fbff;
 }
+
+/* Модальное окно */
+
+.custom-modal-content {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    background: #f7f7f7;
+}
+
+.custom-modal-header {
+    padding: 22px 26px;
+    border-bottom: 1px solid #e1e1e1;
+    background: linear-gradient(135deg, #f2f2f2, #e4e4e4);
+}
+
+.custom-modal-header .modal-title {
+    font-weight: 700;
+    color: #333;
+}
+
+.custom-modal-body {
+    padding: 34px 28px;
+    text-align: center;
+    color: #333;
+}
+
+.custom-modal-body h2 {
+    margin: 14px 0 8px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.custom-modal-body p {
+    margin: 0;
+    color: #777;
+    font-size: 15px;
+}
+
+.modal-icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: #e0e0e0;
+    color: #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+    box-shadow: inset 0 0 0 2px #bdbdbd;
+}
+
+.custom-modal-footer {
+    padding: 20px 26px 24px;
+    border-top: none;
+    justify-content: center;
+    gap: 12px;
+    background: #f7f7f7;
+}
+
+.custom-modal .btn-close {
+    opacity: 0.6;
+    transition: 0.2s;
+}
+
+.custom-modal .btn-close:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+/* Модальное окно все */
