@@ -4,8 +4,7 @@ from wtforms.validators import DataRequired
 
 from datetime import datetime
 
-from crm.models import Events_type
-from crm.models import create_session
+from crm.event_types import get_event_types
 
 
 class LoginForm(FlaskForm):
@@ -45,14 +44,12 @@ class EventsForm(FlaskForm):
         default=datetime(2027, 1, 1)
     )
     event_type = SelectField('Тип событий', choices=[])
+    created_by = SelectField('Автор', choices=[("", "ВСЕ"), ("0", "Робот")])
 
     submit = SubmitField('Вывести')
 
     def __init__(self, *args, **kwargs):
+        print("form init")
         """Запрос к бд для получения всех типов данных"""
         super(EventsForm, self).__init__(*args, **kwargs)
-        self.event_type.choices = [('', "ВСЕ")]
-        with create_session() as db_sess:
-            events = [(event.name, event.translation) for event in db_sess.query(Events_type).all()]
-            self.event_type.choices += [event for event in events]
-        return
+        self.event_type.choices = [('', "ВСЕ")] + [(event.name, event.translation) for event in get_event_types()]

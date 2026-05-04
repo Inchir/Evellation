@@ -54,8 +54,6 @@ def edit_events(account_id):
     return jsonify({"status": "ok"})
 
 
-
-
 @evellation_bp.route("/edit_event/<account_id>", methods=["POST"])
 def edit_event(account_id):
     data = request.get_json()
@@ -81,12 +79,13 @@ def my_evellation_account(account_id):
         start_date = form.start_date.data
         end_date = form.end_date.data
         event_type = form.event_type.data
+        created_by = form.created_by.data
 
-        # получаем события
+        # получаем события из amocrm api
         events, status_code = get_events(account.subdomain, current_user.token,
-                                         start_date, end_date, event_type)
+                                         start_date, end_date, event_type, created_by)
         if not events: events = []
-        users = {}  # храним id пользователя - имя
+        users = {0: "Робот"}  # храним id пользователя - имя
         with create_session() as db_sess:
             # английское название сделки - перевод
             translating_events = {event.name: event.translation for event in db_sess.query(Events_type).all()}
@@ -98,15 +97,37 @@ def my_evellation_account(account_id):
             if created_by in users:
                 user_name = users[created_by]
             else:
-                if created_by == 0:
-                    user_name = "Робот"
+                user, status_code = get_user_by_id(account.subdomain, current_user.token, created_by)
+                if status_code == 200:
+                    user_name = user['name']
                 else:
-                    user, status_code = get_user_by_id(account.subdomain, current_user.token, created_by)
-                    if status_code == 200:
-                        user_name = user['name']
-                    else:
-                        user_name = 'Нет данных'
+                    user_name = 'Нет данных'
                 users[created_by] = user_name  # запоминаем пользователей, чтобы каждый раз не обращаться к api
+            if event['data']['event_type'] == "entity_responsible_changed":
+                value_before = event['data']['value_before']
+                if value_before in users:
+                    value_before = users[value_before]
+                else:
+                    user, status_code = get_user_by_id(account.subdomain, current_user.token, value_before)
+                    if status_code == 200:
+                        value_before = user['name']
+                    else:
+                        value_before = 'Нет данных'
+                    users[event['data']['value_before']] = value_before  # запоминаем пользователей
+
+                value_after = event['data']['value_after']
+                if value_after in users:
+                    value_after = users[value_after]
+                else:
+                    user, status_code = get_user_by_id(account.subdomain, current_user.token, value_after)
+                    if status_code == 200:
+                        value_after = user['name']
+                    else:
+                        value_after = 'Нет данных'
+                    users[event['data']['value_after']] = value_after  # запоминаем пользователей
+
+                event['data']['value_before'] = value_before
+                event['data']['value_after'] = value_after
             event['data']['created_by'] = user_name
             event['utils']['subdomain'] = account.subdomain  # передаем субдомен для формирования ссылок
             event['data']['event_type'] = translating_events.get(event['data']['event_type'], event['data'][

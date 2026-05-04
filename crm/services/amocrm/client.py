@@ -7,22 +7,26 @@ from .endpoints import APIEndpoints
 
 # импорт дополнительных функций
 from .utils import events_filter
+from crm.event_types import get_event_types
 
 logger = setup_logger("app_logs.log", "./services/amocrm/amo_api.log")
 
 
 # получаем список сделок
-def get_events(subdomain, access_token, start_date, end_date, event_type):
+def get_events(subdomain, access_token, start_date, end_date, event_type, created_by):
     """Получаем события (только сделки)
     фильтрует по дате (с помощью events_filter)
     и по типу события"""
     params = {
         'filter[entity]': 'lead',  # тип объекта
         'with': 'lead_name',
-        'limit': 50
+        'limit': 100
     }
-    if event_type: params['filter[type]'] = event_type  # Тип события None, если выбраны ВСЕ типы
-
+    if event_type:
+        params['filter[type]'] = event_type  # указываем тип события
+    else:
+        params['filter[type][]'] = [event.name for event in get_event_types()]  # если выбраны ВСЕ типы, показываем те, с которыми умеем работать
+    if created_by: params['filter[created_by]'] = created_by  # указываем id автора
     # пытаемся получить данные
     try:
         response = requests.get(APIEndpoints.BASE_URL(subdomain),
@@ -84,5 +88,5 @@ def get_user_by_id(subdomain, access_token, user_id):
         return response.json(), 200
     else:
         error_text = response.text if response.text else None
-        logger.error(f'{subdomain}: Ошибка: {response.status_code}, {error_text}')
+        logger.error(f'{subdomain}, {user_id}: Ошибка: {response.status_code}, {error_text}')
         return None, response.status_code
