@@ -1,38 +1,68 @@
 {% extends "sign_base.html" %}
 
 {% block content %}
-<style>
-  .narrow-text { width: 400px; height: 80px;}
-  .button-text { width: 400px; height: 40px;}
-</style>
-<form action="" method="post" style="margin: 0px; padding: 0px">
-    {{ form.hidden_tag() }}
-    {% for i in form %}
-        {% if i.type == 'SubmitField' %}
-            <p class="button-text">{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-        {% elif i.type == 'CSRFTokenField' %}
-            {# если тип - CSRF просто ничего не делать #}
-        {% elif i.type == 'BooleanField' %}
-            <p>{{ i() }} {{ i.label }}</p>
-        {% else %}
-            <p class="narrow-text">
-                {{ i.label }}<br>
-                {{ i(class="form-control") }}<br>
-                {% for error in i.errors %}
-                    <p class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </p>
-                {% endfor %}
-            </p>
-        {% endif %}
-    {% endfor %}
-    {{ message }}
-  <nav  aria-label="breadcrumb" style="--bs-breadcrumb-divider: ' ';">
-      <ol class="breadcrumb">
-          <li class="breadcrumb-item active" aria-current="page">Первый раз здесь?</li>
-          <li class="breadcrumb-item"><a href="/sign_up">Зарегистрироваться</a></li>
-      </ol>
-  </nav>
-</form>
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/sign_in.css')}}"/>
+{% endblock %}
 
+<section class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo" aria-hidden="true">
+      <div class="auth-logo-mark">t</div>
+    </div>
+
+    <h1 class="auth-title">Войти в аккаунт</h1>
+    <p class="auth-subtitle">Введите эл. почту и пароль, чтобы продолжить работу.</p>
+
+    <form action="" method="post" class="auth-form" novalidate>
+      {{ form.hidden_tag() }}
+
+      {% set ns = namespace(has_boolean=false) %}
+
+      {% for i in form %}
+        {% if i.type == 'CSRFTokenField' %}
+          {# CSRF уже отрисован через hidden_tag() #}
+
+        {% elif i.type == 'SubmitField' %}
+          {# Кнопка будет выведена ниже, после опций формы #}
+
+        {% elif i.type == 'BooleanField' %}
+          {% set ns.has_boolean = true %}
+          <div class="auth-options">
+            <label class="auth-checkbox">
+              {{ i() }}
+              <span>{{ i.label.text }}</span>
+            </label>
+          </div>
+          {% for error in i.errors %}
+            <div class="auth-alert" role="alert">{{ error }}</div>
+          {% endfor %}
+
+        {% else %}
+          <div class="auth-field">
+            {{ i.label }}
+            {{ i(class="form-control", placeholder=i.label.text, autocomplete="email" if i.name in ['email', 'username'] else "current-password" if i.name == 'password' else "on") }}
+            {% for error in i.errors %}
+              <div class="auth-alert" role="alert">{{ error }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+
+      {% if message %}
+        <div class="auth-alert" style="margin-bottom: 20px;" role="alert">{{ message }}</div>
+      {% endif %}
+
+      <div class="auth-submit">
+        {{ form.submit(type="submit", class="btn btn-primary") }}
+      </div>
+
+      <p class="auth-footer">
+        Первый раз здесь?
+        <a class="auth-link" href="/sign_up">Зарегистрироваться</a>
+      </p>
+    </form>
+  </div>
+</section>
 {% endblock %}

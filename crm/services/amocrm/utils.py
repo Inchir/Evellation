@@ -51,20 +51,29 @@ def events_filter(data, start_date, end_date):
         object_name = "Сделка"
         name = event['_embedded']['entity'].get('name', "Без имени")
         event_type = event.get('type', "Данных нет")
-
         value_before, value_after = "", ""
-        if event.get('value_before', ''):
-            value_before = get_value(event['value_before'][0])
+        if event_type == 'lead_status_changed':
+            if event.get('value_before', ''):
+                lead_status_id = get_value(event['value_before'][0])
+                pipeline_id = get_value(event['value_before'][0], revers=True)
+                value_before = (pipeline_id, lead_status_id)
+            if event.get('value_after', ''):
+                lead_status_id = get_value(event['value_after'][0])
+                pipeline_id = get_value(event['value_after'][0], revers=True)
+                value_after = (pipeline_id, lead_status_id)
+        else:
+            if event.get('value_before', ''):
+                value_before = get_value(event['value_before'][0])
 
-        if event.get('value_after', ''):
-            value_after = get_value(event['value_after'][0])
+            if event.get('value_after', ''):
+                value_after = get_value(event['value_after'][0])
 
         # сохраняем данные
         if event['type'] == 'sale_field_changed':
             # если value_before пусто, то была 0
             save_data.append({'index': index, 'id': event_id, 'price': value_before if value_before else 0})
         elif event['type'] == 'lead_status_changed':
-            save_data.append({'index': index, 'id': event_id, 'status_id': value_before})
+            save_data.append({'index': index, 'id': event_id, 'status_id': value_before[-1]})
         elif event['type'] == 'name_field_changed':
             save_data.append({'index': index, 'id': event_id, 'name': value_before})
         elif event['type'] == 'entity_responsible_changed':
@@ -81,22 +90,21 @@ def events_filter(data, start_date, end_date):
                                          "object_name": object_name, "name": name, "event_type": event_type,
                                          "value_before": value_before,
                                          "value_after": value_after}})
-    # print("start save: ", save_data)
     redis_save_events(current_user_id, save_data)
-    print("end_save")
     return format_data
 
 
-def get_value(data: Dict):
+def get_value(data: Dict, revers=False):
     """Принимает словарь бесконечной вложенности,
     возвращает первое возможное значение или None
-    {'key': {'key1': {'key3': 'value1'}, 'key2': 'value2'}} -> value1"""
-
-    key = next(iter(data.keys()), None)
+    {'key1': {'key2': value1, 'key3': value2}} -> value1
+    Если reverse = True -> возвращается -1 значение последнего словаря (value2)"""
+    keys = data.keys() if not revers else list(data.keys())[::-1]
+    key = next(iter(keys), None)
     if not key:
         return None
     data = data[key]
     if type(data) == dict:
-        return get_value(data)
+        return get_value(data, revers)
     else:
         return data

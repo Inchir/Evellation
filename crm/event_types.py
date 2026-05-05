@@ -9,8 +9,6 @@ def get_event_types():
     """Получаем все типы событий, с которыми может работать программа.
     Кэшируем результат"""
     with create_session() as db_sess:
-        print("getting event type")
-        print(db_sess.query(Events_type).all())
         return db_sess.query(Events_type).all()
 
 

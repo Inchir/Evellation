@@ -49,7 +49,6 @@ class EventsForm(FlaskForm):
     submit = SubmitField('Вывести')
 
     def __init__(self, *args, **kwargs):
-        print("form init")
         """Запрос к бд для получения всех типов данных"""
         super(EventsForm, self).__init__(*args, **kwargs)
         self.event_type.choices = [('', "ВСЕ")] + [(event.name, event.translation) for event in get_event_types()]

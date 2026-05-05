@@ -20,7 +20,7 @@ def get_events(subdomain, access_token, start_date, end_date, event_type, create
     params = {
         'filter[entity]': 'lead',  # тип объекта
         'with': 'lead_name',
-        'limit': 100
+        'limit': 50
     }
     if event_type:
         params['filter[type]'] = event_type  # указываем тип события
@@ -51,13 +51,11 @@ def get_events(subdomain, access_token, start_date, end_date, event_type, create
 def edit_leads(subdomain, access_token, params: list[dict]):
     """Получает список сделок [{'index': index, 'id': id, key: 'new value'}, ]
     И обновляет значения"""
-
     # пытаемся получить данные
     try:
         response = requests.patch(APIEndpoints.LEADS_URL(subdomain),
                                   headers=APIEndpoints.HEADERS(access_token),
                                   json=params)
-        print(subdomain, params)
     except Exception as error:
         logger.error(f'{subdomain}: Ошибка: {error}')
         return 501  # код о внутренней ошибке (с моей стороны)
@@ -68,7 +66,7 @@ def edit_leads(subdomain, access_token, params: list[dict]):
         return 200
     else:
         error_text = response.text if response.text else None
-        logger.error(f'{subdomain}: Ошибка: {response.status_code}, {error_text}')
+        logger.error(f'edit_leads, {subdomain}: Ошибка: {response.status_code}, {error_text}')
         return response.status_code
 
 
@@ -77,7 +75,6 @@ def get_user_by_id(subdomain, access_token, user_id):
     try:
         response = requests.get(APIEndpoints.GET_USER_URL(subdomain, user_id),
                                 headers=APIEndpoints.HEADERS(access_token))
-        print(APIEndpoints.GET_USER_URL(subdomain, user_id))
     except Exception as error:
         logger.error(f'{subdomain}: Ошибка: {error}')
         return None, 501  # код о внутренней ошибке (с моей стороны)
@@ -89,4 +86,25 @@ def get_user_by_id(subdomain, access_token, user_id):
     else:
         error_text = response.text if response.text else None
         logger.error(f'{subdomain}, {user_id}: Ошибка: {response.status_code}, {error_text}')
+        return None, response.status_code
+
+
+
+def get_lead_status(subdomain, access_token, pipeline_id, lead_status_id):
+    """Получаем название этапа продажи для событий типа 'Изменение этапа продажи'"""
+    # пытаемся получить данные
+    try:
+        response = requests.get(APIEndpoints.GET_LEAD_STATUS(subdomain, pipeline_id, lead_status_id),
+                                headers=APIEndpoints.HEADERS(access_token))
+    except Exception as error:
+        logger.error(f'{subdomain}: Ошибка: {error}')
+        return None, 501  # код о внутренней ошибке (с моей стороны)
+
+    # обрабатываем данные
+    if response.status_code == 200:
+        logger.info(f'{subdomain}: Этапы продажи успешно получены')
+        return response.json(), 200
+    else:
+        error_text = response.text if response.text else None
+        logger.error(f'{subdomain}, {pipeline_id}, {lead_status_id}: Ошибка: {response.status_code}, {error_text}')
         return None, response.status_code
