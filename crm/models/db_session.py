@@ -1,11 +1,10 @@
-import logging
-import traceback
+from pathlib import Path
 
 import sqlalchemy as sa
 import sqlalchemy.orm as orm
 from sqlalchemy.orm import Session
 
-from crm.logger import setup_logger
+# from crm.logger import setup_logger
 
 SqlAlchemyBase = orm.declarative_base()
 
@@ -22,11 +21,10 @@ def global_init(db_file):
 
     if not db_file or not db_file.strip():
         raise Exception("Необходимо указать файл базы данных.")
-    pool_logger = setup_logger("sqlalchemy.pool", "./pool_logger.log", level=logging.INFO)
+    # pool_logger = setup_logger("sqlalchemy.pool", "./pool_logger.log", level=logging.INFO)
 
-    db_file = db_file.strip()
-
-    os.makedirs(os.path.dirname(db_file), exist_ok=True)
+    db_path = Path(db_file).resolve()
+    db_path.parent.mkdir(parents=True, exist_ok=True)
 
     conn_str = f'sqlite:///{db_file}?check_same_thread=False'
     print(f"Подключение к базе данных по адресу {conn_str}")

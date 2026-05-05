@@ -9,7 +9,7 @@ from .endpoints import APIEndpoints
 from .utils import events_filter
 from crm.event_types import get_event_types
 
-logger = setup_logger("app_logs.log", "./services/amocrm/amo_api.log")
+logger = setup_logger("app_logs.log", "crm/services/amocrm/amo_api.log")
 
 
 # получаем список сделок

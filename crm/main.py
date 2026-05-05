@@ -9,6 +9,10 @@ from crm.models import create_session, global_init
 
 # настройка приложения
 from crm.create_app import create_app
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = BASE_DIR / "database" / "users.db"
 
 app = create_app()
 login_manager = LoginManager()
@@ -28,6 +32,7 @@ def index():
 
 
 if __name__ == "__main__":
-    global_init("database/users.db")
+    global_init(str(DB_PATH))
+
     print("* Running on http://127.0.0.1:8000")
     app.run("127.0.0.1", 8000, debug=False)
