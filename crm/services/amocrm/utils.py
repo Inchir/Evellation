@@ -5,15 +5,9 @@ import redis
 import json
 
 REDIS_LIFETIME = 3600
-
-r = redis.Redis(
-    host='redis-10536.c300.eu-central-1-1.ec2.cloud.redislabs.com',
-    port=10536,
-    decode_responses=True,
-    socket_timeout=3,
-    socket_connect_timeout=3,
-    username="default",
-    password="E3WHmd4iU69RQO0okSIBxq9UcUI702Ku",
+r = redis.from_url(
+    "redis://default:InHA0n3i949du9DChZH2sNWPs27Jlvpy@appliance-statement-warm-78721.db.redis.io:19886",
+    decode_responses=True
 )
 
 

@@ -30,7 +30,8 @@ Evellation ── простой способ отменять события am
 ## Быстрый старт
 
 ```bash
-git clone https://git@git.sourcecraft.dev/evgenii-muraviv/amo-api.git
+git clone https://github.com/Inchir/Evellation.git
+#(или зеркало https://git@git.sourcecraft.dev/evgenii-muraviv/amo-api.git)
 cd amo-api
 pip install -r requirements.txt
 python main.py
