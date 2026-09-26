@@ -12,8 +12,8 @@ load_dotenv()
 
 REDIS_URL = os.environ.get("REDIS_URL")
 if REDIS_URL is None:
-
-
+    # TODO: исправить заглушку
+    REDIS_URL = "."
 
 REDIS_LIFETIME = 3600
 r = redis.from_url(

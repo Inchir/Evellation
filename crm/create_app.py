@@ -4,6 +4,12 @@ import logging
 
 from crm.routes import blueprints
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+SECRET_KEY = os.environ.get("SECRET_KEY")
+
 
 def setup_html_logger():
     """Настройка вывода логов работы html"""
@@ -23,7 +29,7 @@ def create_app():
     # устанавливаем данные для формы
 
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = '1231231231'
+    app.config['SECRET_KEY'] = SECRET_KEY
     setup_html_logger()  # настраиваем вывод логгеров
 
     # Register blueprint
