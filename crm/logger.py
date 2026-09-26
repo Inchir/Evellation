@@ -13,3 +13,8 @@ def setup_logger(name, log_file, level=logging.INFO):
     logger.addHandler(handler)
     logger.propagate = True  # Предотвращает дублирование в root логгере
     return logger
+#git remote add sourcecraft https://git@git.sourcecraft.dev/evgenii-muraviv/amo-api.git
+#git remote add github https://github.com/Inchir/Evellation.git
+
+# git fetch https://git@git.sourcecraft.dev/evgenii-muraviv/amo-api.git '+refs/*:refs/*'
+# git push --mirror https://github.com/Inchir/Evellation.git
