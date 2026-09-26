@@ -1,12 +1,23 @@
+import os
+
 from flask_login import current_user
 from datetime import datetime
 from typing import Dict
+import os
+from dotenv import load_dotenv
 import redis
 import json
 
+load_dotenv()
+
+REDIS_URL = os.environ.get("REDIS_URL")
+if REDIS_URL is None:
+
+
+
 REDIS_LIFETIME = 3600
 r = redis.from_url(
-    "redis://default:InHA0n3i949du9DChZH2sNWPs27Jlvpy@appliance-statement-warm-78721.db.redis.io:19886",
+    REDIS_URL,
     decode_responses=True
 )
 
