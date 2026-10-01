@@ -2,8 +2,6 @@ from flask import Blueprint
 from flask import render_template, redirect, request, jsonify
 from flask_login import current_user
 
-import logging
-
 # формы
 from crm.forms import AccountForm, TokenForm, EventsForm
 
@@ -20,7 +18,7 @@ from .utils import get_templates_name, get_user, get_account, get_accounts, crea
 from crm.services.amocrm import get_events, edit_leads, get_user_by_id, get_lead_status
 
 # redis
-from crm.services.amocrm import redis_get_event
+from crm.services.amocrm import redis_get_event, redis_get_user
 
 # модели
 from crm.models import Events_type
@@ -42,11 +40,17 @@ def edit_events(account_id):
     events_index = data.get("events")
     account = get_account(account_id)
 
-    data = []
+    leads = []
+    user_events = redis_get_user(current_user.get_id())
     for index in events_index:
-        b = redis_get_event(current_user.get_id(), str(index))
-        del b['index']
-        data.append(b)
+        lead = redis_get_event(user_events, str(index))
+        print(type(index), lead)
+        if lead is None:
+            continue
+        leads.append(lead)
+    print(leads)
+
+    edit_leads(account.subdomain, current_user.token, leads)
 
     return jsonify({"status": "ok"})
 
@@ -55,10 +59,13 @@ def edit_events(account_id):
 def edit_event(account_id):
     data = request.get_json()
     event_index = data.get("eventIndex")
-    data = redis_get_event(current_user.get_id(), str(event_index))
-    del data['index']
+
+    # получаем данные с redis
+    user_events = redis_get_user(current_user.get_id())
+    lead = redis_get_event(user_events, str(event_index))
+
     account = get_account(account_id)
-    edit_leads(account.subdomain, current_user.token, [data])
+    edit_leads(account.subdomain, current_user.token, [lead])
 
     return jsonify({"status": "ok"})
 

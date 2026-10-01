@@ -1,4 +1,5 @@
 import os
+import socket
 
 from flask_login import current_user
 from datetime import datetime
@@ -18,7 +19,10 @@ if REDIS_URL is None:
 REDIS_LIFETIME = 3600
 r = redis.from_url(
     REDIS_URL,
-    decode_responses=True
+    decode_responses=True,
+    socket_timeout=5,  # ошибка при зависании
+    retry_on_timeout=True,
+    max_connections=10
 )
 
 
@@ -33,7 +37,7 @@ def redis_save_events(user_id, events):
     r.setex(key, REDIS_LIFETIME, json.dumps(data))
 
 
-def redis_get_event(user_id, event_index):
+def redis_get_user(user_id):
     key = f"events:{user_id}"
 
     raw = r.get(key)
@@ -41,7 +45,12 @@ def redis_get_event(user_id, event_index):
         return None
 
     data = json.loads(raw)  # type: ignore
-    return data.get(event_index)
+
+    return data
+
+
+def redis_get_event(leads, event_index):
+    return leads.get(event_index)
 
 
 def events_filter(data, start_date, end_date):
